@@ -1,0 +1,76 @@
+# Specifies the version of the docker compose file format
+version: '3.8'
+
+# Defines the services that make up the application
+# Each service represents a container that will be managed by docker compose
+services:
+  # The name of the service. This identifier is used when referencing this service in other configurations or during container management
+  flask-app:
+    # Specifies the build context for the flask application. It determines how the docker image for this service is built
+    build: 
+      # Specifies the directory containing the dockerfile and other necessary files
+      context: .
+      # Dockerfile specifies the name of the Dockerfile to use. This is optional if the file is named Dockerfile
+      dockerfile: Dockerfile
+    # Exposes port 5000 on the container and maps it to port 5000 on the host machine
+    ports:
+      - "5000:5000"
+    # Mounts the current directory (where the docker compose file is located) as a volume in the container
+    # This ensures that any changes made to the application code on the host are immediately reflected in the container
+    volumes:
+      - .:/app
+    # Sets environment variables for the flask application and used to configure the flask app's behavior
+    environment:
+        # Specifies the main file of the flask application that should be run
+      - FLASK_APP=app.py
+        # Specifies the environment in which the Flask application is running (development, production, etc)
+      - FLASK_ENV=development
+        # Specifies the database uri for sqlalchemy to connect to the postgresql database
+      - SQLALCHEMY_DATABASE_URI=postgresql://user:password@db:5432/mydatabase
+    # Dependencies: Ensures that this service starts only after the specified services are running
+    depends_on:
+      - db
+    # Overrides the default command specified in the Dockerfile
+    command: ["flask", "run", "--host=0.0.0.0"]
+    # Set restart policy - automatically restart the container if it stops
+    # The unless-stopped policy means the container will be restarted unless it is explicitly stopped by the user
+    restart: unless-stopped
+    # Limits the amount of memory and cpu available to the container
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: '512M'
+    # Defines a command to check the health of the container
+    healthcheck:
+      # The health check uses curl to make an http request to the Flask application's health endpoint
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      # Time between running the health check
+      interval: 30s
+      # Time to wait for the health check to complete
+      timeout: 10s
+      # Number of times to retry the health check before considering the container unhealthy
+      retries: 3
+    # Configures the logging options for the service
+    logging:
+      # The json-file driver is used, with options to limit the log file size and the number of log files
+      driver: "json-file"
+      options:
+        max-size: "10m"  # Maximum size of each log file
+        max-file: "3"  # Maximum number of log files to keep
+
+  # The database service, using postgresql as an example
+  db:
+    # Uses the official postgresql image from docker hub
+    image: postgres:13
+    # Exposes port 5432 on the container and maps it to port 5432 on the host machine
+    ports:
+      - "5432:5432"
+    # Sets environment variables for the PostgreSQL container
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=mydatabase
+    # Named volumes can be used to persist data between container restarts. The db_data volume is used to store postgresql data
+    volumes:
+      - db_data:/var/lib/postgresql/data
