@@ -1,0 +1,16 @@
+data_path: 'data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv'
+output_path: 'output/'
+model_path: 'output/models/'
+log_path: 'output/logs/train.log'
+test_size: 0.2
+random_state: 42
+models:
+  LogisticRegression:
+    C: 1.0
+    max_iter: 100
+  DecisionTreeClassifier:
+    max_depth: None
+    min_samples_split: 2
+  RandomForestClassifier:
+    n_estimators: 100
+    max_features: 'auto'

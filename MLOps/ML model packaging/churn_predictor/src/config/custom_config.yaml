@@ -1,0 +1,8 @@
+data_path: 'data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv'
+test_size: 0.25
+models:
+  LogisticRegression:
+    C: 0.5
+    max_iter: 200
+  DecisionTreeClassifier:
+    max_depth: 10
