@@ -24,9 +24,9 @@ docker run <image_name>
 ```
 
 Options:
-*-d: Run container in background and print container ID
-*-p: Publish a container’s port to the host
-*-v: Bind mount a volume
+* -d: Run container in background and print container ID
+* -p: Publish a container’s port to the host
+* -v: Bind mount a volume
 
 ### Container management
 Docker containers are lightweight, portable, and self-sufficient units that run software.
