@@ -17,16 +17,16 @@ docker pull <image_name>
 ```
 
 ##### Running a container
-This command creates and starts a new container from the specified image.
+This command creates and starts a new container from the specified image. If the image is not available locally, Docker will automatically pull it from Docker Hub.
 
 ```
 docker run <image_name>
 ```
 
 Options:
-*-d: Run container in background and print container ID
-*-p: Publish a container’s port to the host
-*-v: Bind mount a volume
+*`-d`: Run container in background and print container ID, For example, `docker run -d <image_name>`
+*`-p`: Publish a container’s port to the host, allowing external access to the application running inside the container. For example, `docker run -p <host_port>:<container_port> <image_name>`
+*`-v`: Binds a volume to the container, allowing data to persist beyond the container's lifecycle. Useful for sharing data between the host and the container or between containers. For example, `docker run -v <path_on_host>:<path_on_container> <image_name>`
 
 ### Container management
 Docker containers are lightweight, portable, and self-sufficient units that run software.
@@ -73,6 +73,27 @@ This command shows the logs from a specific container.
 docker logs <container_id>
 ```
 
+#### Executing commands in a running container
+The `docker exec` command allows to run commands inside a running container. This is useful for debugging or modifying the state of a running container.
+
+Examples:
+
+1. Running a simple command inside a running container: Here, the command lists the contents of the /app directory inside the specified container.
+```
+docker exec <container_id> ls /app
+```
+
+2. Accessing a running container's shell: The command opens an interactive bash shell inside the specified container, allowing to run multiple commands.
+```
+docker exec -it <container_id> /bin/bash
+``` 
+
+3. Checking the status of a process inside the container: The command lists all running processes inside the specified container, similar to the `ps aux` command on a typical Linux system.
+```
+docker exec <container_id> ps aux
+```
+
+
 ### Image management
 Docker images are templates used to create containers. They contain the application code, runtime, libraries, and everything needed to run an application.
 
@@ -84,14 +105,14 @@ docker images
 ```
 
 ##### Removing an image
-This command deletes a specific image from the local Docker storage. The image ID can be found using the `docker images` command.
+This command deletes a specific image from the local Docker storage. The image ID can be found using the `docker images` command. Before removing an image, ensure no containers are running or using this image.
 
 ```
 docker rmi <image_id>
 ```
 
 ##### Building an Image from Dockerfile
-This command builds a new Docker image from a Dockerfile located in the current directory. The `-t` option tags the image with a name.
+This command builds a new Docker image from a Dockerfile located in the current directory. The `-t` option tags the image with a name. `.` specifies the build context, which is the current directory in this case. The Dockerfile should be present in this directory.
 
 ```
 docker build -t <image_name> .
