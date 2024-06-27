@@ -23,10 +23,16 @@ This command creates and starts a new container from the specified image. If the
 docker run <image_name>
 ```
 
+To specify a particular version of an image, use the tag feature. Tags are used to version control images.
+```
+docker run <image_name>:<tag>
+```
+
 Options:
-*`-d`: Run container in background and print container ID, For example, `docker run -d <image_name>`
-*`-p`: Publish a container’s port to the host, allowing external access to the application running inside the container. For example, `docker run -p <host_port>:<container_port> <image_name>`
-*`-v`: Binds a volume to the container, allowing data to persist beyond the container's lifecycle. Useful for sharing data between the host and the container or between containers. For example, `docker run -v <path_on_host>:<path_on_container> <image_name>`
+* `-d`: Run container in background and print container ID, For example, `docker run -d <image_name>`
+* `-p`: Publish a container’s port to the host, allowing external access to the application running inside the container. For example, `docker run -p <host_port>:<container_port> <image_name>`
+* `-it`: Run the container in interactive mode with a TTY (terminal). This allows to interact with the container's command line. For example, `docker run -it <image_name> /bin/bash`
+* `-v`: Binds a volume to the container, allowing data to persist beyond the container's lifecycle. Useful for sharing data between the host and the container or between containers. For example, `docker run -v <path_on_host>:<path_on_container> <image_name>`
 
 ### Container management
 Docker containers are lightweight, portable, and self-sufficient units that run software.
@@ -64,6 +70,13 @@ This command deletes a container. Note that the container must be stopped before
 
 ```
 docker rm <container_id>
+```
+
+##### Inspecting a container
+This command allows to view detailed information about a Docker container or image and will display it as a JSON output.
+
+```
+docker inspect <container_id>
 ```
 
 ##### Viewing container logs
