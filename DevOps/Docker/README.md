@@ -141,6 +141,13 @@ This command lists all Docker networks that are currently defined on the local m
 docker network ls
 ```
 
+##### Inspecting a network
+This command allows to view detailed information about a Docker network.
+
+```
+docker network inspect <network_name>
+```
+
 ##### Creating a network
 This command creates a new Docker network with the specified name.
 
@@ -257,4 +264,36 @@ This command removes a stack and all associated services from the Swarm cluster.
 
 ```
 docker stack rm <stack_name>
+```
+
+### Docker Registry - Docker Hub
+A Docker registry is a system for storing and distributing Docker images. Docker Hub is a public Docker registry. It is a cloud-based repository where Docker users and partners create, test, store, and distribute container images.
+
+##### Logging into Docker Hub
+This command logs us into Docker Hub. It prompts us to enter our Docker Hub username and password.
+
+```
+docker login
+```
+
+After successful authentication, Docker stores the credentials securely so that we can push and pull images to and from Docker Hub without needing to log in again until the login session expires.
+
+##### Pushing an image to Docker Hub
+This command pushes a local Docker image to the Docker Hub repository, After building the Docker image locally. `tag` identifies the version of the image. If omitted, Docker assumes `:latest`.
+
+```
+docker push <username>/<repository>:<tag>
+```
+
+Before pushing an image to Docker Hub, we need to tag it appropriately. This creates a link between the local image and the Docker Hub repository as follows:
+
+```
+docker tag <local_image>:<tag> <username>/<repository>:<tag>
+```
+
+##### Pulling an image from Docker Hub
+This command pulls an image from Docker Hub to the local machine.
+
+```
+docker pull <username>/<repository>:<tag>
 ```
