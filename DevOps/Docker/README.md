@@ -29,10 +29,13 @@ docker run <image_name>:<tag>
 ```
 
 Options:
-* `-d`: Run container in background and print container ID, For example, `docker run -d <image_name>`
-* `-p`: Publish a container’s port to the host, allowing external access to the application running inside the container. For example, `docker run -p <host_port>:<container_port> <image_name>`
-* `-it`: Run the container in interactive mode with a TTY (terminal). This allows to interact with the container's command line. For example, `docker run -it <image_name> /bin/bash`
-* `-v`: Binds a volume to the container, allowing data to persist beyond the container's lifecycle. Useful for sharing data between the host and the container or between containers. For example, `docker run -v <path_on_host>:<path_on_container> <image_name>`
+* `-d`: Run container in background and print container ID, For example, `docker run -d <image_name>`, such as `docker run -d nginx`
+* `-p`: Publish a container’s port to the host, allowing external access to the application running inside the container. For example, `docker run -p <host_port>:<container_port> <image_name>`, such as `docker run -p 8080:80 nginx`
+* `-it`: Run the container in interactive mode with a TTY (terminal). This allows to interact with the container's command line. For example, `docker run -it <image_name> /bin/bash`, such as `docker run -it ubuntu /bin/bash`
+* `-v`: Binds a volume to the container, allowing data to persist beyond the container's lifecycle. Useful for sharing data between the host and the container or between containers. For example, `docker run -v <path_on_host>:<path_on_container> <image_name>`, such as `docker run -v /my/host/path:/my/container/path busybox`
+* `--name`: Assign a name to the container. This makes it easier to reference and manage the container later. For example, `docker run --name my_container <image_name>`, such as `docker run --name my_nginx nginx`
+* `--link`: Link this container to another container. This allows containers to communicate with each other by name. For example, `docker run --link <other_container>:alias <image_name>`, such as `docker run --link my_database:db my_web_app`
+
 
 ### Container management
 Docker containers are lightweight, portable, and self-sufficient units that run software.
@@ -155,6 +158,20 @@ This command creates a new Docker network with the specified name.
 docker network create <network_name>
 ```
 
+We can also specify the network driver and subnet.
+
+```
+docker network create --driver <driver_name> --subnet <subnet> <network_name>
+```
+
+For example, `docker network create --driver bridge --subnet 172.18.0.0/16 my_bridge_network`
+
+* `--driver`: Specifies the network driver to use. Docker supports several network drivers such as bridge, host, overlay, and macvlan.
+    * bridge: This is the default network driver. When we create a container, it automatically connects to this bridge network unless we specify otherwise. Containers on the same bridge network can communicate with each other, but not with containers on other bridge networks or the host.
+    * host: For standalone containers, remove network isolation between the container and the Docker host, and use the host’s networking directly. This is useful if we want our container to use the same network as the host for better performance or simpler networking configurations.
+    * overlay: This driver is used for multi-host networking. It enables Docker Swarm services to communicate with each other across multiple Docker daemons.
+* `--subnet`: Specifies the subnet for the network in CIDR format.
+
 ##### Connecting a container to a network
 This command connects an existing container to a specified network.
 
@@ -251,6 +268,66 @@ This command lists all nodes that are part of the Swarm cluster, including their
 ```
 docker node ls
 ```
+
+#### Docker Service management
+Docker services are the tasks we want to execute on our Swarm cluster. These services can be replicated across multiple nodes for scalability and reliability.
+
+##### Creating a Service
+This command creates a new service in the Swarm cluster.
+
+```
+docker service create --name <service_name> <image>
+```
+
+Options:
+
+* `--replicas`: Specifies the number of replica tasks to run.
+* `--publish`: Publishes a port on each node to allow external access.
+* `--env`: Sets environment variables for the service.
+* `--constraint`: Sets node placement constraints.
+
+##### Listing Services
+This command lists all services running in the Swarm cluster.
+
+```
+docker service ls
+```
+
+##### Inspecting a Service
+This command provides detailed information about a specific service.
+
+```
+docker service inspect <service_id>
+```
+
+##### Scaling a Service
+This command scales a service to the specified number of replicas.
+
+```
+docker service scale <service_name>=<number_of_replicas>
+```
+
+##### Updating a Service
+This command updates the configuration or image of a running service.
+
+```
+docker service update <service_name>
+```
+
+Options:
+
+* `--image`: Updates the service to use a new image.
+* `--env-add`: Adds a new environment variable.
+* `--replicas`: Changes the number of replicas.
+
+##### Removing a Service
+This command removes a specific service from the Swarm cluster.
+
+```
+docker service rm <service_name>
+```
+#### Docker Stack management
+A stack is a collection of services that make up an application in a Swarm cluster.
 
 ##### Deploying a stack in Swarm
 This command deploys a stack (a collection of services) to the Swarm cluster using a Compose file.
