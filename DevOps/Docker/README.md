@@ -356,16 +356,20 @@ docker login
 After successful authentication, Docker stores the credentials securely so that we can push and pull images to and from Docker Hub without needing to log in again until the login session expires.
 
 ##### Pushing an image to Docker Hub
-This command pushes a local Docker image to the Docker Hub repository, After building the Docker image locally. `tag` identifies the version of the image. If omitted, Docker assumes `:latest`.
-
+Before pushing an image to Docker Hub, we need to build and tag it appropriately. First, we need to build the Docker image locally using:
 ```
-docker push <username>/<repository>:<tag>
+docker-compose up --build
 ```
-
-Before pushing an image to Docker Hub, we need to tag it appropriately. This creates a link between the local image and the Docker Hub repository as follows:
+This ensures that the latest version of your application and its dependencies are compiled into a Docker image. Once the image is built, we need to tag it to create a link between the local image and the Docker Hub repository:
 
 ```
 docker tag <local_image>:<tag> <username>/<repository>:<tag>
+```
+
+Now, we can push the image to Docker Hub. This command pushes a local Docker image to the Docker Hub repository, after building the Docker image locally. `tag` identifies the version of the image. If omitted, Docker assumes `:latest`.
+
+```
+docker push <username>/<repository>:<tag>
 ```
 
 ##### Pulling an image from Docker Hub
