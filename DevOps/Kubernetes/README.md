@@ -41,7 +41,7 @@ minikube dashboard
 ```
 
 ##### Pointing kubectl to Minikube
-After starting Minikube, you may need to configure kubectl to use Minikube’s context to manage our cluster.
+After starting Minikube, we may need to configure kubectl to use Minikube’s context to manage our cluster.
 
 ```
 kubectl config use-context minikube
@@ -115,6 +115,13 @@ Kubernetes uses YAML files to define the desired state of resources like pods. T
 kubectl apply -f <file.yaml>
 ```
 
+##### Running a pod using kubectl run
+This command runs a new pod based on the specified container image. It is often used for quickly deploying a single pod for testing purposes.
+
+```
+kubectl run <pod_name> --image=<container_image>
+```
+
 ##### Deleting a pod
 This command deletes a specific pod. It removes the specified pod from the cluster, stopping and cleaning up any associated resources.
 
@@ -147,6 +154,13 @@ This command creates a service using the configuration defined in a YAML file.
 kubectl apply -f <file.yaml>
 ```
 
+##### Exposing a deployment as a service
+This command exposes a deployment, replica set, or pod as a new Kubernetes service. It creates a service resource to make the application accessible within or outside the cluster.
+
+```
+kubectl expose deployment <deployment_name> --type=<service_type> --port=<port>
+```
+
 ##### Deleting a service
 This command deletes a specific service.
 
@@ -177,6 +191,13 @@ This command scales a deployment to a specified number of replicas, ensuring the
 
 ```
 kubectl scale deployment <deployment_name> --replicas=<number_of_replicas>
+```
+
+##### Replacing a deployment
+This command replaces the current configuration of a deployment with a new one defined in a YAML file. It's useful for updating the deployment configuration.
+
+```
+kubectl replace -f <file.yaml>
 ```
 
 ##### Deleting a deployment
@@ -241,4 +262,20 @@ This command deletes a specific Ingress resource.
 
 ```
 kubectl delete ingress <ingress_name>
+```
+
+### General management
+
+##### Replacing a resource from a YAML file
+This command updates an existing resource using the configuration defined in a YAML file. It is useful for modifying the properties of existing resources.
+
+```
+kubectl replace -f <file.yaml>
+```
+
+##### Listing all resources
+This command lists all resources in the default namespace, including pods, services, deployments, and more.
+
+```
+kubectl get all
 ```
