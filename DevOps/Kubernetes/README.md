@@ -207,6 +207,37 @@ This command deletes a specific deployment.
 kubectl delete deployment <deployment_name>
 ```
 
+##### Managing deployment rollouts
+The `kubectl rollout` commands help manage the rollout of new versions of applications.
+
+- **Check rollout status**:
+  This command checks the status of a deployment rollout. It shows if the deployment has completed, or if it's still in progress.
+
+```
+kubectl rollout status deployment/<deployment_name>
+```
+
+- **Undo a rollout**:
+This command rolls back a deployment to a previous version. It's useful if a new version has issues.
+
+```
+kubectl rollout undo deployment/<deployment_name>
+```
+
+- **Pause a rollout**:
+This command pauses the rollout of a deployment. It's useful if we want to temporarily stop the deployment of new updates.
+
+```
+kubectl rollout pause deployment/<deployment_name>
+```
+
+- **Resume a rollout**:
+This command resumes a paused deployment rollout. It continues the deployment of updates after a pause.
+
+```
+kubectl rollout resume deployment/<deployment_name>
+```
+
 ### Namespace management
 
 Namespaces are a way to divide cluster resources between multiple users or teams. They provide a scope for names, helping to avoid name collisions and allowing for resource segregation.
