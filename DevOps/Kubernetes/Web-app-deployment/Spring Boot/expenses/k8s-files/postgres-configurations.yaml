@@ -1,0 +1,66 @@
+# The PersistentVolumeClaim (PVC) file requests storage resources from Kubernetes. It allows the pod to use persistent storage that survives pod restarts.
+# The PVC is declared first because it requests storage resources from the Kubernetes cluster. This storage must be allocated and available before any pod that relies on it can be started. The following Deployment needs to reference this PVC to mount the storage volume.
+apiVersion: v1  # The PVC API version is v1 because it is a core Kubernetes resource available since the initial stable release
+kind: PersistentVolumeClaim  # Indicates that this is a PersistentVolumeClaim object
+metadata:
+  name: postgres-pvc  # Name of the PVC
+spec:
+  accessModes: # Specifies how the volume can be accessed
+    - ReadWriteOnce  # Access mode for the volume (read and write by a single node)
+  resources:
+    requests:
+      storage: 50Mi  # Amount of storage requested for the volume
+
+---
+
+# Deployment for the app database pod. The deployment sets up the application (in this case, PostgreSQL) and specifies the number of replicas (pods) to run, along with their configurations, environment variables, and volume mounts.
+apiVersion: apps/v1  # The Deployment API version is apps/v1, part of the 'apps' API group which manages deployments, statefulsets, and daemonsets
+kind: Deployment
+metadata:
+  name: postgres-deployment  # Name of the deployment
+  labels:
+    app: postgres  # Label to identify the app
+spec:
+  replicas: 1 # Specifies that there should be one instance (replica) of this pod
+  selector:
+    matchLabels:
+      app: postgres  # Selector to identify the pods managed by this deployment
+  template:
+    metadata:
+      labels:
+        app: postgres  # Label for the pods
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15  # Docker image for the PostgreSQL container
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "template1"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres1"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data  # Path to mount the volume in the container
+              name: postgres-data  # Name of the volume mount
+      volumes:
+        - name: postgres-data  # Name of the volume
+          persistentVolumeClaim:
+            claimName: postgres-pvc  # Reference to the PersistentVolumeClaim in postgres-pvc.yaml file
+
+---
+
+# Service configuration file for the Postgres database. The service is created after the deployment, to ensure that the pods it needs to expose are already running or being created. The service exposes the deployment, making it accessible to other parts of the application within the cluster.
+apiVersion: v1  # The Service API version is v1 because it is a core Kubernetes resource available since the initial stable release
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  type: ClusterIP  # Service type to expose the Service within the cluster. ClusterIP is used keep the service internal to the cluster, suitable for database services that only need to be accessed by other services within the cluster.
+  selector:
+    app: postgres  # Selector to identify the pods targeted by this service
+  ports:
+    - port: 5432  # Port exposed by the service
+      targetPort: 5432  # Port on the pod that the service should forward traffic to
