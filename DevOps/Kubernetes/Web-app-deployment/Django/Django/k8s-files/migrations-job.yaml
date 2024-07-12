@@ -1,0 +1,30 @@
+# Job configuration file for Kubernetes to run Django migrations. This file ensures that database migrations are applied and initial data is loaded.
+apiVersion: batch/v1  # Specifies the API version for Kubernetes Job
+kind: Job  # Indicates that this is a Job object
+metadata:
+  name: expenses-migrations-job  # Name of the job
+spec:
+  template:
+    spec:
+      initContainers:  # Init container to wait for the MySQL service to be available before running migrations
+      - name: wait-for-mysql  # Name of the init container
+        image: busybox:1.28  # Uses a lightweight BusyBox image
+        command: ['sh', '-c', 'until nslookup mysql-service; do echo waiting for mysql; sleep 2; done;']  # Command to repeatedly check for the availability of the MySQL service using nslookup
+      containers:  # Main container to run Django migrations and load initial data
+      - name: migrations
+        image: expenses:1.0  # Docker image for the Django application
+        command: ["sh", "-c", "python manage.py migrate && python manage.py loaddata data.json"]  # Command to run Django migrations and load initial data
+        env:  # Environment variables for the Django application
+          - name: DJANGO_SETTINGS_MODULE
+            value: "expenses_project.settings"
+          - name: MYSQL_DATABASE
+            value: "expenses"
+          - name: MYSQL_USER
+            value: "root"
+          - name: MYSQL_PASSWORD
+            value: "mysql1"
+          - name: MYSQL_HOST
+            value: "mysql-service"  # Hostname of the MySQL service
+          - name: MYSQL_PORT
+            value: "3306"
+      restartPolicy: OnFailure  # Policy to restart the job on failure

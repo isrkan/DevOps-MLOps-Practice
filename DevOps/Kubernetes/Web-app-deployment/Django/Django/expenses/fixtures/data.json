@@ -1,0 +1,24 @@
+[
+    {
+        "model": "expenses.expense",
+        "pk": 1,
+        "fields": {
+            "amount": "100.00",
+            "category": "Food",
+            "description": "Lunch",
+            "approved": false,
+            "added_by": "David"
+        }
+    },
+    {
+        "model": "expenses.expense",
+        "pk": 2,
+        "fields": {
+            "amount": "50.00",
+            "category": "Holidays",
+            "description": "Flight",
+            "approved": false,
+            "added_by": "Ben"
+        }
+    }
+]

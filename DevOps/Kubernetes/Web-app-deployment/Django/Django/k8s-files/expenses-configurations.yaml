@@ -1,0 +1,52 @@
+# Deployment configuration file for Kubernetes and is used to create and manage the application pods. This file is used to describe a desired state for the application that Kubernetes will maintain.
+apiVersion: apps/v1  # Specifies the API version
+kind: Deployment  # Indicates that this is a deployment object
+metadata:
+  name: expenses-deployment  # Name of the deployment
+  labels:
+    app: expenses  # Label to identify the app
+spec:
+  replicas: 2  # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: expenses  # Selector to identify the pods managed by this deployment
+  template:
+    metadata:
+      labels:
+        app: expenses  # Label for the pods
+    spec:
+      containers:
+        - name: expenses  # Name of the container
+          image: expenses:1.0  # Use the local image or an image from docker hub
+          ports:
+            - containerPort: 8003  # Port the container listens on
+          env:  # Environment variables for the container
+            - name: DJANGO_SETTINGS_MODULE
+              value: "expenses_project.settings"  # Django settings module
+            - name: MYSQL_DATABASE
+              value: "expenses"  # MySQL database name
+            - name: MYSQL_USER
+              value: "root"
+            - name: MYSQL_PASSWORD
+              value: "mysql1"
+            - name: MYSQL_HOST
+              value: "mysql-service"  # Hostname of the MySQL service
+            - name: MYSQL_PORT
+              value: "3306"
+          command: ["gunicorn", "--bind", "0.0.0.0:8003", "expenses_project.wsgi:application"]
+
+---
+
+# Service configuration file for Kubernetes. This file defines how to expose the app pod within the Kubernetes cluster, allowing other pods to communicate with it.
+apiVersion: v1
+kind: Service  # Indicates that this is a service object
+metadata:
+  name: expenses-service  # Name of the service
+spec:
+  type: NodePort  # Service type to expose the service on a specific port. NodePort is used to make the service accessible from outside the cluster on a specific port.
+  selector:
+    app: expenses  # Selector to identify the pods targeted by this service
+  ports:
+    - port: 8004  # Port exposed by the service
+      targetPort: 8003  # Port on the pod that the service should forward traffic to
+      nodePort: 30082  # Specific port on each node to expose the service (or we can let Kubernetes assign automatically)

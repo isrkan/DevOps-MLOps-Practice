@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Expenses</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/expenses/expenses_list.css' %}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Expenses</h1>
+            </div>
+            <ul class="expenses-list">
+                {% for expense in expenses %}
+                <li class="expense-item {% if expense.approved %}approved{% endif %}">
+                    <p><strong>Amount:</strong> {{ expense.amount }}</p>
+                    <p><strong>Category:</strong> {{ expense.category }}</p>
+                    <p><strong>Description:</strong> {{ expense.description }}</p>
+                    <p><strong>Approved:</strong> {{ expense.approved|yesno:"Yes,No" }}</p>
+                    <p><strong>Added By:</strong> {{ expense.added_by }}</p>
+                    <a href="{% url 'approve_expense' expense.id %}" class="approve-link">Approve/Disapprove</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'home' %}" class="back-link">Back to Home</a>
+        </div>
+    </body>
+</html>
