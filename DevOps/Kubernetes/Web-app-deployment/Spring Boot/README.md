@@ -28,7 +28,7 @@ Then, push the image to the Docker registry:
 docker push <username>/<repository>:<tag>
 ```
 
-# Alternative for step 4: Load Docker image into Minikube
+### Alternative for step 4: Load Docker image into Minikube
 Alternatively, we can directly load the Docker image into Minikube. Minikube provides a way to directly transfer local Docker images to the Minikube Docker environment. First, ensure Minikube is running:
 
 ```bash
