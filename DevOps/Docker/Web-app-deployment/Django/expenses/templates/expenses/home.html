@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Home</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/expenses/home.css' %}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Expenses Management System</h1>
+            </div>
+            <a href="{% url 'expenses_list' %}" class="expenses-link">View Expenses</a>
+        </div>
+    </body>
+</html>

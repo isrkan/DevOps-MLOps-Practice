@@ -1,0 +1,63 @@
+version: '1.0'  # Specifies the version of Docker Compose file format
+
+# Defines the services that make up the application
+# Each service represents a container that will be managed by docker compose
+services:
+  # The name of the service. This identifier is used when referencing this service in other configurations or during container management
+  expenses:
+    # Specifies the build context for the Django application. It determines how the docker image for this service is built
+    build:
+      # Specifies the directory containing the dockerfile and other necessary files
+      context: .
+      # Dockerfile specifies the name of the Dockerfile to use. This is optional if the file is named Dockerfile
+      dockerfile: Dockerfile
+    # Exposes port 8004 on the host machine and maps it to port 8003 on the container
+    ports:
+      - "8004:8003"
+    # Sets environment variables for the Django application and used to configure the app's behavior
+    environment:
+      # Specifies the Django settings module to use
+      - DJANGO_SETTINGS_MODULE=expenses_project.settings
+      # Specifies the database URL for connecting to the MySQL database
+      - MYSQL_DATABASE=expenses
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=mysql1
+      - MYSQL_HOST=db
+    # Specifies dependencies on other services
+    depends_on:
+      # Depends on the `db` service to be healthy before starting
+      db:
+        condition: service_healthy
+    # Binds mount the host directory to the container directory, allowing code changes to reflect without rebuilding the image
+    volumes:
+      - .:/app
+    # Command to run when the container starts
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py loaddata data.json &&
+             python manage.py collectstatic --noinput &&
+             gunicorn --bind 0.0.0.0:8003 expenses_project.wsgi:application"
+
+  # Defines the MySQL database service
+  db:
+    # Uses the official MySQL image from Docker Hub
+    image: mysql:9.0
+    # Exposes port 3306 on the host machine and maps it to port 3306 on the container
+    ports:
+      - "3306:3306"
+    # Sets environment variables for the MySQL database configuration
+    environment:
+      - MYSQL_DATABASE=expenses
+      - MYSQL_ROOT_PASSWORD=mysql1
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# Defines named volumes that can be shared and persisted across containers
+volumes:
+  # Creates a named volume for the MySQL data
+  mysql_data:
