@@ -10,7 +10,7 @@ with open('requirements.txt', 'rb') as f:
 
 
 setup(
-    name='customer_churn_package',
+    name='customer_churn_predictor',
     version='0.1.0',
     description='A package for predicting customer churn in telecommunication companies.',
     author='Israel',
