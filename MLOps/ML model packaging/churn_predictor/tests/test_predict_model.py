@@ -25,9 +25,9 @@ class TestPredictModel(unittest.TestCase):
             self.assertEqual(len(prediction), len(X_test))
 
         # Test accessing an attribute of an unfitted model (for NotFittedError)
-        for model_name, model in trained_models.items():
-            with self.assertRaises(NotFittedError):
-                model.predict([[1] * 10])
+        unfitted_model = LogisticRegression()  # Create a new unfitted model instance
+        with self.assertRaises(NotFittedError):
+            unfitted_model.predict([[1] * 10])  # This should raise the NotFittedError
 
 
 if __name__ == '__main__':

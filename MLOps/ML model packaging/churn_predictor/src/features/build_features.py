@@ -9,7 +9,7 @@ def feature_engineering(preprocessed_data):
         # Polynomial features
         poly = PolynomialFeatures(degree=2, include_bias=False)
         poly_features = poly.fit_transform(preprocessed_data[['tenure', 'MonthlyCharges']])
-        poly_feature_names = poly.get_feature_names(['tenure_squared', 'MonthlyCharges_squared'])
+        poly_feature_names = poly.get_feature_names_out(['tenure', 'MonthlyCharges'])
         poly_df = pd.DataFrame(poly_features, columns=poly_feature_names)
         preprocessed_data = pd.concat([preprocessed_data, poly_df], axis=1)
 
