@@ -1,7 +1,7 @@
 # run_train.py
 
-from src.models.train_model import train_models
-from src.config.config import Config
+from customer_churn_predictor.models.train_model import train_models
+from customer_churn_predictor.config.config import Config
 
 
 def run_train(config):
@@ -20,8 +20,8 @@ def run_train(config):
 
 if __name__ == "__main__":
     # Load configuration
-    config = Config(default_config_path='src/config/default_config.yaml',
-                    custom_config_path='src/config/custom_config.yaml')
+    config = Config(default_config_path='customer_churn_predictor/config/default_config.yaml',
+                    custom_config_path='customer_churn_predictor/config/custom_config.yaml')
 
     # Run model training
     run_train(config)

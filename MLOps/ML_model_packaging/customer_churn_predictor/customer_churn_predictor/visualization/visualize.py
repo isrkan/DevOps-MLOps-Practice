@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def visualize_categorical_distribution(data, feature):
+def visualize_categorical_distribution(data, feature, save_path=None):
     """
     Visualize distribution of a categorical feature.
 
@@ -16,9 +16,15 @@ def visualize_categorical_distribution(data, feature):
     plt.ylabel('Count')
     plt.legend(title='Churn', loc='upper right')
     plt.xticks(rotation=45)
+    # Save the plot if save_path is provided
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Categorical distribution plot saved at: {save_path}")
+    # Display the plot
     plt.show()
 
-def visualize_numerical_distribution(data, feature):
+
+def visualize_numerical_distribution(data, feature, save_path=None):
     """
     Visualize distribution of a numerical feature.
 
@@ -32,4 +38,9 @@ def visualize_numerical_distribution(data, feature):
     plt.xlabel(feature)
     plt.ylabel('Count')
     plt.legend(title='Churn', loc='upper right')
+    # Save the plot if save_path is provided
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Numerical distribution plot saved at: {save_path}")
+    # Display the plot
     plt.show()

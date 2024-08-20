@@ -11,7 +11,11 @@ def feature_engineering(preprocessed_data):
         poly_features = poly.fit_transform(preprocessed_data[['tenure', 'MonthlyCharges']])
         poly_feature_names = poly.get_feature_names_out(['tenure', 'MonthlyCharges'])
         poly_df = pd.DataFrame(poly_features, columns=poly_feature_names)
+        # Concatenate the polynomial features with the preprocessed data
         preprocessed_data = pd.concat([preprocessed_data, poly_df], axis=1)
+
+        # Remove duplicate columns, if any
+        preprocessed_data = preprocessed_data.loc[:, ~preprocessed_data.columns.duplicated()]
 
         return preprocessed_data
     except ValueError as ve:

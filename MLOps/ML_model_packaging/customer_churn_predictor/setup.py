@@ -15,7 +15,9 @@ setup(
     description='A package for predicting customer churn in telecommunication companies.',
     author='Israel',
     author_email='israel@example.com',
-    packages=find_packages(exclude=['tests*']),
+    packages=find_packages(where='.'),  # Root directory of the package
+    package_dir={'customer_churn_predictor': 'customer_churn_predictor'},  # Correct mapping
+    include_package_data=True,
     install_requires=required,
     entry_points={
         'console_scripts': [
