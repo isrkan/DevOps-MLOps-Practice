@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import os
+import logging
 
 def calculate_feature_importance(trained_model, feature_names, save_path=None):
     try:
@@ -27,15 +27,19 @@ def calculate_feature_importance(trained_model, feature_names, save_path=None):
         # Save the plot if save_path is provided
         if save_path:
             plt.savefig(save_path)
+            logging.info(f"Feature importance plot saved at: {save_path}")
             print(f"Feature importance plot saved at: {save_path}")
         # Display the plot
         plt.show()
 
         # Print top 5 most important features
         print("Top 5 most important features:")
+        logging.info("Top 5 most important features:\n%s", feature_importance_df.head())
         print(feature_importance_df.head())
 
     except AttributeError as ae:
+        logging.error(f"AttributeError occurred: {ae}")
         print(f"AttributeError occurred: {ae}")
     except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
         print(f"An unexpected error occurred: {e}")

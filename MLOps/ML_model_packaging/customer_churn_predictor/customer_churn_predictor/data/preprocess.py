@@ -1,9 +1,10 @@
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler, LabelEncoder
 import pandas as pd
-
+import logging
 
 def preprocess_data(data):
     try:
+        logging.info("Starting data preprocessing.")
         # Encoding categorical variables
         binary_categorical_features = ['gender', 'Partner', 'Dependents', 'PhoneService', 'PaperlessBilling']
         ordinal_categorical_features = ['MultipleLines', 'InternetService', 'OnlineSecurity', 'OnlineBackup',
@@ -14,11 +15,13 @@ def preprocess_data(data):
         binary_encoder = OneHotEncoder(drop='first')
         binary_encoded_data = binary_encoder.fit_transform(data[binary_categorical_features])
         binary_encoded_columns = binary_encoder.get_feature_names_out(binary_categorical_features)
+        logging.info("Binary categorical features encoded.")
 
         # Perform ordinal encoding for ordinal features
         ordinal_encoder = OrdinalEncoder()
         ordinal_encoded_data = ordinal_encoder.fit_transform(data[ordinal_categorical_features])
         ordinal_encoded_columns = [f'{feature}_encoded' for feature in ordinal_categorical_features]
+        logging.info("Ordinal categorical features encoded.")
 
         # Concatenate encoded binary and ordinal categorical features
         encoded_data = pd.concat([pd.DataFrame(binary_encoded_data.toarray(), columns=binary_encoded_columns),
@@ -39,24 +42,31 @@ def preprocess_data(data):
         # Replace original numerical features with scaled ones
         for i, feature in enumerate(numerical_features):
             data[feature] = scaled_numerical_features[:, i]
+        logging.info("Numerical features scaled.")
 
         # Encoding the target variable 'Churn'
         label_encoder = LabelEncoder()
         data['Churn_encoded'] = label_encoder.fit_transform(data['Churn'])
+        logging.info("Target variable 'Churn' encoded.")
 
         # Concatenate encoded categorical features and numerical features
         preprocessed_data = pd.concat([encoded_data, data[numerical_features], data['Churn_encoded']], axis=1)
+        logging.info("Data preprocessing completed successfully.")
 
         return preprocessed_data
     except ValueError as ve:
+        logging.error(f"ValueError occurred during preprocessing: {ve}")
         print(f"ValueError occurred: {ve}")
         return None
     except KeyError as ke:
+        logging.error(f"KeyError occurred during preprocessing: {ke}")
         print(f"KeyError occurred: {ke}")
         return None
     except TypeError as te:
+        logging.error(f"TypeError occurred during preprocessing: {te}")
         print(f"TypeError occurred: {te}")
         return None
     except Exception as e:
+        logging.error(f"An unexpected error occurred during preprocessing: {e}")
         print(f"An unexpected error occurred: {e}")
         return None

@@ -11,9 +11,12 @@ from customer_churn_predictor.models.predict_model import predict_models
 from customer_churn_predictor.models.model_serialization import save_model
 from customer_churn_predictor.config.config import Config
 import os
+import logging
 
 def run_pipeline(config, data_path):
     try:
+        logging.info("Pipeline started.")
+
         # Load data
         data = load_data(data_path)
 
@@ -71,7 +74,9 @@ def run_pipeline(config, data_path):
             save_model(trained_model, model_filepath)
 
 
+        logging.info("Pipeline completed successfully.")
         print("Pipeline completed successfully.")
 
     except Exception as e:
+        logging.error(f"An error occurred during pipeline execution: {e}")
         print(f"An error occurred during pipeline execution: {e}")

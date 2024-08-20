@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import logging
 
 def visualize_categorical_distribution(data, feature, save_path=None):
     """
@@ -19,6 +20,7 @@ def visualize_categorical_distribution(data, feature, save_path=None):
     # Save the plot if save_path is provided
     if save_path:
         plt.savefig(save_path)
+        logging.info(f"Categorical distribution plot saved at: {save_path}")
         print(f"Categorical distribution plot saved at: {save_path}")
     # Display the plot
     plt.show()
@@ -41,6 +43,7 @@ def visualize_numerical_distribution(data, feature, save_path=None):
     # Save the plot if save_path is provided
     if save_path:
         plt.savefig(save_path)
-        print(f"Numerical distribution plot saved at: {save_path}")
+        logging.info(f"Categorical distribution plot saved at: {save_path}")
+        logging.info(f"Numerical distribution plot saved at: {save_path}")
     # Display the plot
     plt.show()
