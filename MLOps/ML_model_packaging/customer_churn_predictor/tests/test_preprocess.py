@@ -1,5 +1,5 @@
 import unittest
-from src.data.preprocess import preprocess_data
+from customer_churn_predictor.data.preprocess import preprocess_data
 import pandas as pd
 
 class TestDataPreprocess(unittest.TestCase):

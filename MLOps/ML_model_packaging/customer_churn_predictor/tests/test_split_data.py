@@ -1,6 +1,6 @@
 import unittest
 import pandas as pd
-from src.data.split_data import perform_train_test_split
+from customer_churn_predictor.data.split_data import perform_train_test_split
 
 class TestTrainTestSplit(unittest.TestCase):
     def test_perform_train_test_split(self):

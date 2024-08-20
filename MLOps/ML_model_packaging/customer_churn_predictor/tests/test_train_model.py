@@ -1,7 +1,7 @@
 import unittest
 from sklearn.linear_model import LogisticRegression
 from sklearn.datasets import make_classification
-from src.models.train_model import train_models
+from customer_churn_predictor.models.train_model import train_models
 
 class TestTrainModel(unittest.TestCase):
     def test_train_models(self):
