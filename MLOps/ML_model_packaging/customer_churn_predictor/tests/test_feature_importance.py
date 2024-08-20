@@ -1,5 +1,5 @@
 import unittest
-from src.models.feature_importance import calculate_feature_importance
+from customer_churn_predictor.models.feature_importance import calculate_feature_importance
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import make_classification
 

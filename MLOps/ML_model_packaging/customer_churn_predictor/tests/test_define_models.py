@@ -1,5 +1,5 @@
 import unittest
-from src.models.define_models import define_models
+from customer_churn_predictor.models.define_models import define_models
 from sklearn.exceptions import NotFittedError
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier

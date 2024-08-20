@@ -1,5 +1,5 @@
 import unittest
-from src.models.predict_model import predict_models
+from customer_churn_predictor.models.predict_model import predict_models
 from sklearn.linear_model import LogisticRegression
 from sklearn.datasets import make_classification
 from sklearn.exceptions import NotFittedError

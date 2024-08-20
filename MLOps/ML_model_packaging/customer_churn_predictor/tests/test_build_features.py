@@ -1,5 +1,5 @@
 import unittest
-from src.features.build_features import feature_engineering
+from customer_churn_predictor.features.build_features import feature_engineering
 import pandas as pd
 
 class TestFeatureEngineering(unittest.TestCase):
