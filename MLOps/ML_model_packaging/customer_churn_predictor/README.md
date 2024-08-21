@@ -66,7 +66,7 @@ It takes the following command-line arguments:
 Alternatively, if we want to focus on training and saving the models separately, we can run the training script:
 
 ```bash
-python scripts/run_train.py --data_path <path_to_csv_data_file>
+python scripts/run_train.py --data_path <path_to_csv_data_file> --models_dir <directory_to_save_models>
 ```
 
 It takes the following command-line arguments:
