@@ -19,6 +19,7 @@ setup(
     package_dir={'customer_churn_predictor': 'customer_churn_predictor'},  # Correct mapping
     include_package_data=True,
     install_requires=required,
+    python_requires='>=3.7',
     entry_points={
         'console_scripts': [
             'run_pipeline=scripts.run_pipeline:main',
