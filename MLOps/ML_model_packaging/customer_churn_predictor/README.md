@@ -13,6 +13,9 @@ The data used in this project is the Telco Customer Churn dataset and comes from
 **Source**: [Kaggle Telco Customer Churn Dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
 
 ## Installation
+We have two options for installing the package from the GitHub repository:
+
+#### Option 1: Clone the specific project directory
 1. Clone only the specific project directory from the repository:
 ```
 git clone --no-checkout https://github.com/isrkan/DevOps-MLOps-Practice.git
@@ -30,12 +33,17 @@ cd "MLOps/ML_model_packaging/customer_churn_predictor"
 ```
 
 3. Install the package using `pip`:
-
 ```
 pip install .
 ```
 
 This will install the `customer_churn_predictor` package along with all required dependencies.
+
+#### Option 2: Install directly from GitHub with pip
+Alternatively, we can install the package directly from the GitHub repository using `pip`.
+```
+pip install "git+https://github.com/isrkan/DevOps-MLOps-Practice.git#egg=customer_churn_predictor&subdirectory=MLOps/ML_model_packaging/customer_churn_predictor"
+```
 
 ## Usage
 
