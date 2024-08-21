@@ -3,6 +3,18 @@ import pandas as pd
 import logging
 
 def feature_engineering(preprocessed_data):
+    """
+    Perform feature engineering on preprocessed data.
+
+    This includes creating interaction features, generating polynomial features,
+    and removing duplicate columns.
+
+    Args:
+    - preprocessed_data (DataFrame): The preprocessed data on which feature engineering will be applied.
+
+    Returns:
+    - preprocessed_data (DataFrame): The data with newly engineered features.
+    """
     try:
         logging.info("Starting feature engineering.")
 

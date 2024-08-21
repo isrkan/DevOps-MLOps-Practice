@@ -3,6 +3,10 @@ from customer_churn_predictor import customer_churn_predictor
 from customer_churn_predictor import pipeline
 
 def main():
+    """
+    Main function to run the customer churn prediction pipeline.
+    Parses command-line arguments for data path and configuration path.
+    """
     # Setup argument parser
     parser = argparse.ArgumentParser(description="Run the customer churn prediction pipeline.")
     parser.add_argument('--data_path', type=str, required=True, help="Path to the CSV data file.")

@@ -2,6 +2,15 @@ import pandas as pd
 import logging
 
 def load_data(file_path):
+    """
+    Load a dataset from a CSV file.
+
+    Args:
+    - file_path (str): The path to the CSV file.
+
+    Returns:
+    - data (DataFrame): The loaded dataset as a pandas DataFrame.
+    """
     try:
         data = pd.read_csv(file_path)
         print("Data loaded successfully")

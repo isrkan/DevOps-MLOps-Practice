@@ -14,6 +14,17 @@ import os
 import logging
 
 def run_pipeline(config, data_path):
+    """
+    Runs the full data pipeline including loading data, preprocessing, feature engineering,
+    model training, evaluation, and saving the results.
+
+    Parameters:
+    - config (Config): Configuration object with pipeline settings.
+    - data_path (str): Path to the dataset file.
+
+    Returns:
+    None
+    """
     try:
         logging.info("Pipeline started.")
 

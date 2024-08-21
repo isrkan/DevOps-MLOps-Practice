@@ -2,6 +2,20 @@ from sklearn.model_selection import train_test_split
 import logging
 
 def perform_train_test_split(data, test_size=0.2, random_state=42):
+    """
+    Splits the input data into training and testing sets.
+
+    Parameters:
+    - data (DataFrame): The processed dataset.
+    - test_size (float): Proportion of the dataset to include in the test split.
+    - random_state (int): Controls the shuffling applied to the data before applying the split.
+
+    Returns:
+    - X_train (DataFrame): Training features.
+    - X_test (DataFrame): Testing features.
+    - y_train (Series): Training target variable.
+    - y_test (Series): Testing target variable.
+    """
     try:
         logging.info("Performing train-test split with test_size=%s and random_state=%s", test_size, random_state)
 

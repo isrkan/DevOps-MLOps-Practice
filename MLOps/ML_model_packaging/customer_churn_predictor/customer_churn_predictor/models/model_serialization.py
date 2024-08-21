@@ -2,6 +2,16 @@ import joblib
 import logging
 
 def save_model(model, filepath):
+    """
+    Save a trained model to a specified file path using joblib.
+
+    Args:
+    - model: The trained model to be saved.
+    - filepath (str): The path where the model will be saved.
+
+    Returns:
+    - None
+    """
     try:
         joblib.dump(model, filepath)
         logging.info(f"Model saved successfully at {filepath}")
@@ -11,6 +21,15 @@ def save_model(model, filepath):
         print(f"An unexpected error occurred while saving the model: {e}")
 
 def load_model(filepath):
+    """
+    Load a trained model from a specified file path using joblib.
+
+    Args:
+    - filepath (str): The path to the saved model file.
+
+    Returns:
+    - model: The loaded model.
+    """
     try:
         model = joblib.load(filepath)
         logging.info(f"Model loaded successfully from {filepath}")

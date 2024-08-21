@@ -3,6 +3,18 @@ import pandas as pd
 import logging
 
 def preprocess_data(data):
+    """
+    Preprocess the input data for machine learning.
+
+    This includes encoding categorical variables, scaling numerical features,
+    and encoding the target variable.
+
+    Args:
+    - data (DataFrame): The raw data to be preprocessed.
+
+    Returns:
+    - preprocessed_data (DataFrame): The preprocessed data ready for modeling.
+    """
     try:
         logging.info("Starting data preprocessing.")
         # Encoding categorical variables

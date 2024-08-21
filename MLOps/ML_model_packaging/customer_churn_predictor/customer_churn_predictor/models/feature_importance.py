@@ -4,6 +4,17 @@ import seaborn as sns
 import logging
 
 def calculate_feature_importance(trained_model, feature_names, save_path=None):
+    """
+    Calculate and plot feature importance for a trained model.
+
+    Args:
+    - trained_model (model): The trained machine learning model.
+    - feature_names (list): List of feature names corresponding to the training data.
+    - save_path (str, optional): Path to save the feature importance plot. Defaults to None.
+
+    Returns:
+    - None: Displays the plot and optionally saves it, and prints/logs the top 5 important features.
+    """
     try:
         if not hasattr(trained_model, 'feature_importances_'):
             raise AttributeError("The trained model does not have a feature_importances_ attribute.")

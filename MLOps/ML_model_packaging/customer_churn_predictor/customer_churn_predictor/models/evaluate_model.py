@@ -2,6 +2,17 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 import logging
 
 def evaluate_models(trained_models, X_test, y_test):
+    """
+    Evaluate trained machine learning models on the test data.
+
+    Args:
+    - trained_models (dict): A dictionary of trained models.
+    - X_test (DataFrame): The test features.
+    - y_test (Series): The true labels for the test data.
+
+    Returns:
+    - None: Outputs the evaluation metrics to the console and logs.
+    """
     try:
         for name, model in trained_models.items():
             # Predict

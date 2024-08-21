@@ -6,6 +6,10 @@ from customer_churn_predictor.models.model_serialization import save_model
 import os
 
 def main():
+    """
+    Main function to train models for customer churn prediction.
+    Parses command-line arguments for data path, configuration path, and models directory.
+    """
     # Setup argument parser
     parser = argparse.ArgumentParser(description="Train models for customer churn prediction.")
     parser.add_argument('--data_path', type=str, required=True, help="Path to the CSV data file.")

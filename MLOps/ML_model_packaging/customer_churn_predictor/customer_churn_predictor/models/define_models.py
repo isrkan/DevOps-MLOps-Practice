@@ -4,6 +4,12 @@ from sklearn.ensemble import RandomForestClassifier
 import logging
 
 def define_models():
+    """
+    Define a set of machine learning models to be used for training.
+
+    Returns:
+    - models (dict): A dictionary containing the model names as keys and model instances as values.
+    """
     try:
         models = {
             'Logistic regression': LogisticRegression(),
