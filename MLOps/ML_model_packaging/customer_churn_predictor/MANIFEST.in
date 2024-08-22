@@ -1,6 +1,8 @@
 include README.md
+include CHANGELOG.md
 include requirements.txt
 include data/raw/*
+include *.py
 recursive-include customer_churn_predictor *
 recursive-include scripts *
 include customer_churn_predictor/config/*.yaml

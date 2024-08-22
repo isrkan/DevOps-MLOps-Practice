@@ -1,4 +1,10 @@
 from setuptools import setup, find_packages
+import os
+
+# Read version from __init__.py
+version = {}
+with open(os.path.join('customer_churn_predictor', '__init__.py')) as f:
+    exec(f.read(), version)
 
 # Read requirements from the requirements.txt file with explicit error handling
 with open('requirements.txt', 'rb') as f:
@@ -11,7 +17,7 @@ with open('requirements.txt', 'rb') as f:
 
 setup(
     name='customer_churn_predictor',
-    version='0.1.0',
+    version=version['__version__'],
     description='A package for predicting customer churn in telecommunication companies.',
     author='Israel',
     author_email='israel@example.com',
