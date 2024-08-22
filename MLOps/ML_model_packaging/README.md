@@ -187,15 +187,49 @@ The setup file is essential for several reasons:
 - It defines entry points for our package, such as command-line interfaces, making it easier for users to interact with our package.
 
 Create a Python file named `setup.py` in the root directory and use the `setup.py` file in this directory as an example. Adjust the arguments with the specific information and dependencies.
-
+- Before setting the Python version requirement in the file, we should know which version of Python our package is compatible with. We can check the Python version we are using by running the following command in your terminal:
+```bash
+python --version
+```
 
 ## Step 6: Include additional files
 
 #### 6.1 Include the `MANIFEST.in` file 
-The `MANIFEST.in` file is used to specify any additional files that should be included in our package distribution but are not automatically included by `setuptools`. This can include configuration files (e.g., YAML config files), documentation, data files, and any other non-code files necessary for our package to function correctly. For example:
+The `MANIFEST.in` file is used to specify which additional files should be included in our package distribution that `setuptools` might not automatically pick up. This can include configuration files (e.g., YAML config files), documentation, data files, and any other non-code files necessary for our package to function correctly. 
 
+##### Common Commands in `MANIFEST.in`
+Here are some useful commands to control file inclusion:
+
+- **`include`**: Add specific files.
+  ```plaintext
+  include MyPackage/config/*.yaml
+  ```
+- **`exclude`**: Remove specific files.
+  ```plaintext
+  exclude MyPackage/tests/*
+  ```
+- **`recursive-include`**: Add all files in a directory that match a pattern.
+  ```plaintext
+  recursive-include MyPackage/data *.csv
+  ```
+- **`recursive-exclude`**: Remove files in a directory that match a pattern.
+  ```plaintext
+  recursive-exclude MyPackage/tmp *.tmp
+  ```
+- **`graft`**: Add all files in a directory.
+  ```plaintext
+  graft MyPackage/docs
+  ```
+- **`prune`**: Exclude all files in a directory.
+  ```plaintext
+  prune MyPackage/tmp
+  ```
+
+##### Example
+To include all YAML configuration files from the `config` directory and exclude test files, your `MANIFEST.in` might look like this:
 ```plaintext
 include MyPackage/config/*.yaml
+exclude MyPackage/tests/*
 ```
 
 #### 6.2 Create `.gitignore` file
@@ -231,7 +265,6 @@ A `README.md` file explains how to use our package and provides an overview of t
 Install the package locally to ensure everything works as expected. 
 
 1. To install the package locally, we can use the `pip` command. By running the following command in the root directory of the project (where the setup.py file is located), pip will install the package along with all its dependencies specified in requirements.txt:
-
 ```bash
 pip install .
 ```
