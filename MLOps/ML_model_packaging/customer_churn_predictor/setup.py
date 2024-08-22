@@ -9,7 +9,7 @@ def read_version():
         version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", content, re.M)
         if version_match:
             return version_match.group(1)
-        raise RuntimeError("Unable to find version string.")x
+        raise RuntimeError("Unable to find version string.")
 
 # Read requirements from the requirements.txt file with explicit error handling
 with open('requirements.txt', 'rb') as f:
