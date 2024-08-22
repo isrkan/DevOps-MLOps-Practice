@@ -1,10 +1,15 @@
 from setuptools import setup, find_packages
 import os
+import re
 
 # Read version from __init__.py
-version = {}
-with open(os.path.join('customer_churn_predictor', '__init__.py')) as f:
-    exec(f.read(), version)
+def read_version():
+    with open(os.path.join('customer_churn_predictor', '__init__.py')) as f:
+        content = f.read()
+        version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", content, re.M)
+        if version_match:
+            return version_match.group(1)
+        raise RuntimeError("Unable to find version string.")x
 
 # Read requirements from the requirements.txt file with explicit error handling
 with open('requirements.txt', 'rb') as f:
@@ -17,7 +22,7 @@ with open('requirements.txt', 'rb') as f:
 
 setup(
     name='customer_churn_predictor',
-    version=version['__version__'],
+    version=read_version(),
     description='A package for predicting customer churn in telecommunication companies.',
     author='Israel',
     author_email='israel@example.com',
