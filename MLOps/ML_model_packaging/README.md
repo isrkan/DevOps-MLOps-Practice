@@ -78,6 +78,17 @@ We can quickly set up this directory structure using command-line commands, whic
 
    By placing an `__init__.py` file within a directory, we transform that directory into a Python package. This allows us to import modules and functions from that directory using dot notation.
 
+   Additionally, in `my_package/__init__.py`, we should add the version of the package. For example:
+   ```python
+   __version__ = "0.1.0"
+   ```
+
+   Including it allows us to easily access the package version programmatically:
+   ```python
+   import my_package
+   print(my_package.__version__)
+   ```
+
 5. **Create placeholders for other important files**:
    ```bash
    touch my_package/MainObject.py
@@ -96,6 +107,19 @@ We can quickly set up this directory structure using command-line commands, whic
 This will set up the basic structure of the project. Remember, this is just a boilerplate structure, and it can be modified based on the specific requirements of our project. For instance, if we don’t need a command-line interface, we can omit the `scripts/` directory. Similarly, if our project doesn’t require any configuration files, the `config/` directory might not be necessary.
 
 As we build our package, we can add or remove directories, files, and modules as needed. The key is to maintain a clear and organized structure that makes it easy for others (or us in the future) to understand and work with the code.
+
+##### Using Cookiecutter Data Science
+Another option for setting up a project structure is to use Cookiecutter Data Science (CCDS). CCDS is a tool for setting up a data science package template, which is a bit different from the structure we outlined here but can be adjusted to fit your needs. To use Cookiecutter Data Science, follow these steps:
+1. **Install CCDS** using `pip`:
+   ```bash
+   pip install cookiecutter-data-science
+   ```
+2. **Start a new project** by running:
+   ```bash
+   ccds
+   ```
+
+CCDS will guide us through a series of prompts to set up the project structure according to a predefined template. This template is well-suited for data science projects, and it includes many best practices for reproducibility, collaboration, and deployment.
 
 ### 2.2 Create Python modules
 After setting up the directory structure, the next step is to move the code from our notebook into separate Python modules within the `my_package/` directory. This makes the code modular, reusable, and easier to maintain.
@@ -262,14 +286,21 @@ A `README.md` file explains how to use our package and provides an overview of t
 
 
 ## Step 7: Install and test the package
-Install the package locally to ensure everything works as expected. 
+After organizing the code into a package, install the package locally to ensure everything works as expected. 
 
 1. To install the package locally, we can use the `pip` command. By running the following command in the root directory of the project (where the setup.py file is located), pip will install the package along with all its dependencies specified in requirements.txt:
-```bash
-pip install .
-```
+  ```bash
+  pip install .
+  ```
 
-This command installs the package locally on the system, allowing us to use it as if it were installed from PyPI. This is particularly useful for testing before distributing the package.
+  This command installs the package locally on the system, allowing us to use it as if it were installed from PyPI. This is particularly useful for testing before distributing the package.
+
+  In some cases, it might be more convenient to use the `-e` option with `pip` install, like so:
+  ```bash
+  pip install -e .
+  ```
+
+  The `-e` option stands for "editable." When we install a package with `pip install -e .`, it creates a link between the package directory and our Python environment. This means that any changes we make to the package code are immediately reflected without the need to reinstall the package. Use this option when we are actively developing the package. It allows us to modify the code and test it in real-time without repeatedly reinstalling the package.
 
 2. Once installed, we should test the package by either running command-line scripts or importing it in a Python script.
 
