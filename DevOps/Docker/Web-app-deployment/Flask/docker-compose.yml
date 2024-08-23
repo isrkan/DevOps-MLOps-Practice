@@ -1,11 +1,10 @@
-# Specifies the version of the docker compose file format
-version: '3.8'
+version: '3.8'  # Specifies the version of Docker Compose file format
 
 # Defines the services that make up the application
 # Each service represents a container that will be managed by docker compose
 services:
   # The name of the service. This identifier is used when referencing this service in other configurations or during container management
-  flask-app:
+  expenses-app:
     # Specifies the build context for the flask application. It determines how the docker image for this service is built
     build: 
       # Specifies the directory containing the dockerfile and other necessary files
@@ -25,11 +24,6 @@ services:
       - FLASK_APP=app.py
         # Specifies the environment in which the Flask application is running (development, production, etc)
       - FLASK_ENV=development
-        # Specifies the database uri for sqlalchemy to connect to the postgresql database
-      - SQLALCHEMY_DATABASE_URI=postgresql://user:password@db:5432/mydatabase
-    # Dependencies: Ensures that this service starts only after the specified services are running
-    depends_on:
-      - db
     # Overrides the default command specified in the Dockerfile
     command: ["flask", "run", "--host=0.0.0.0"]
     # Set restart policy - automatically restart the container if it stops
@@ -58,19 +52,3 @@ services:
       options:
         max-size: "10m"  # Maximum size of each log file
         max-file: "3"  # Maximum number of log files to keep
-
-  # The database service, using postgresql as an example
-  db:
-    # Uses the official postgresql image from docker hub
-    image: postgres:13
-    # Exposes port 5432 on the container and maps it to port 5432 on the host machine
-    ports:
-      - "5432:5432"
-    # Sets environment variables for the PostgreSQL container
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mydatabase
-    # Named volumes can be used to persist data between container restarts. The db_data volume is used to store postgresql data
-    volumes:
-      - db_data:/var/lib/postgresql/data

@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "amount": "100.00",
+        "category": "Food",
+        "description": "Lunch",
+        "approved": false,
+        "added_by": "David"
+    },
+    {
+        "id": 2,
+        "amount": "500.00",
+        "category": "Holidays",
+        "description": "Flight",
+        "approved": false,
+        "added_by": "Ben"
+    }
+]

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Edit Expense</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+    </head>
+    <body>
+        <h1>Edit Expense</h1>
+        <form action="{{ url_for('edit_expense', id=expense['id']) }}" method="post">
+            <label for="amount">Amount:</label>
+            <input type="text" id="amount" name="amount" value="{{ expense['amount'] }}"><br>
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category" value="{{ expense['category'] }}"><br>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" value="{{ expense['description'] }}"><br>
+            <label for="approved">Approved:</label>
+            <input type="checkbox" id="approved" name="approved" {% if expense['approved'] %}checked{% endif %}><br>
+            <label for="added_by">Added By:</label>
+            <input type="text" id="added_by" name="added_by" value="{{ expense['added_by'] }}"><br>
+            <button type="submit">Edit Expense</button>
+        </form>
+    </body>
+</html>
