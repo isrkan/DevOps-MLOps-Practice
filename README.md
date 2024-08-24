@@ -23,8 +23,13 @@ This folder contains subfolders dedicated to practicing various DevOps tools and
 ### 2. MLOps
 This folder contains subfolders dedicated to practicing machine learning operations. Topics include:
 
-#### ML Model Packaging
+#### ML Model packaging
 - Packaging a machine learning model (churn predictor).
+
+#### Model serving
+Exploring model serving patterns, including:
+  - Model as a dependency: Integrating models directly into applications.
+  - Model as a service: Exposing models as standalone services that can be accessed via APIs.
 
 ## Purpose
 
