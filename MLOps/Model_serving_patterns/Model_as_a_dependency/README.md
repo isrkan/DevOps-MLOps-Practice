@@ -1,4 +1,4 @@
-# Serving a Machine Learning Model as a Dependency in Flask
+# Serving a Machine Learning Model as a Dependency with Flask
 
 "Model as a dependency" pattern is the practice of integrating a pre-built machine learning model into a software application so that the model becomes an integral part of that application’s functionality. In this pattern, the model is treated like any other software component (or dependency) that the application relies on to perform its tasks, such as making predictions based on user input.
 

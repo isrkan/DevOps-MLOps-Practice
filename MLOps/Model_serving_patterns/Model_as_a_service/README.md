@@ -189,6 +189,6 @@ To create a user interface for our Flask application, we will need to add HTML a
     flask run
     ```
 3. **Perform tests**:
-    - **GET Request**: Visit `http://127.0.0.1:5000/predict` in the browser to trigger a GET request.
-    - **POST Request**: Fill out any forms provided on the main page, submit, and observe the prediction results.
-4. **Review Logs**: Check the terminal outputs for both the Flask and FastAPI servers to ensure there are no errors, and that requests and responses are being handled as expected.
+    - **GET request**: Visit `http://127.0.0.1:5000/predict` in the browser to trigger a GET request.
+    - **POST request**: Fill out any forms provided on the main page, submit, and observe the prediction results.
+4. **Review logs**: Check the terminal outputs for both the Flask and FastAPI servers to ensure there are no errors, and that requests and responses are being handled as expected.
