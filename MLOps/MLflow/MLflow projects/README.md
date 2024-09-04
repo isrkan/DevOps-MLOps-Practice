@@ -19,18 +19,9 @@ An MLflow project is a directory that contains our code and an `MLproject` file.
 ```
 my_ml_project/
 │
-├── MLproject                 # Project file (mandatory)
+├── MLproject                 # MLflow project file (mandatory)
 ├── conda.yaml                # Environment file for dependencies (optional but recommended)
 ├── main.py                   # Main Python script that executes the ML code
-├── data/                     # Directory for data files (if any)
-├── notebooks/                # Jupyter notebooks for experiments and exploration
-├── src/                      # Source code for the project
-│   ├── __init__.py           # Makes src a package
-│   ├── data/                 # Scripts for data loading and processing
-│   ├── features/             # Feature engineering scripts
-│   ├── models/               # Model definition and training scripts
-│   └── utils/                # Utility functions and helpers
-├── tests/                    # Unit and integration tests
 └── README.md                 # Project overview, setup instructions, and how to run it
 ```
 
@@ -117,14 +108,22 @@ dependencies:
 ### Running an MLflow project
 Once our project is set up, running it is straightforward using the MLflow CLI:
 ```bash
-mlflow run .
+mlflow run . --experiment-name <experiment_name>
 ```
 
 This command does the following:
 - Creates and activates a conda environment as specified in `conda.yaml`.
 - Runs the default entry point specified in the `MLproject` file.
+- Specifies the name of the experiment (`<experiment_name>`) to which the run belongs. MLflow will create this experiment if it doesn’t already exist. Alternatively, we can use instead `--experiment-id <experiment_id>`.
 
+#### Running with parameters
 We can also pass parameters to the project such as:
 ```bash
-mlflow run . -P learning_rate=0.001 -P epochs=20
+mlflow run . -P learning_rate=0.001 -P epochs=20 --experiment-name <experiment_name>
+```
+
+#### Running specific entry points
+By default, `mlflow run .` executes the `main` entry point defined in the `MLproject` file. If we want to run a different entry point, we need to specify it using the `-e` or `--entry-point` flag:
+```bash
+mlflow run . --entry-point <NAME> --experiment-name <experiment_name>
 ```
