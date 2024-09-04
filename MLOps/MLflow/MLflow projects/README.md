@@ -106,6 +106,9 @@ dependencies:
 - **`dependencies`**: List of packages and versions required by our project.
 
 ### Running an MLflow project
+We have two options for running an MLflow project: using the CLI or the MLflow API.
+
+#### Option 1: Running with the CLI
 Once our project is set up, running it is straightforward using the MLflow CLI:
 ```bash
 mlflow run . --experiment-name <experiment_name>
@@ -114,16 +117,43 @@ mlflow run . --experiment-name <experiment_name>
 This command does the following:
 - Creates and activates a conda environment as specified in `conda.yaml`.
 - Runs the default entry point specified in the `MLproject` file.
+- Specifies the URI, which in our case is `.`. It tells MLflow to execute the project located in the current working directory. Instead of `.` (which denotes the current directory), we can provide a path to a different directory or a Git repository URL.
 - Specifies the name of the experiment (`<experiment_name>`) to which the run belongs. MLflow will create this experiment if it doesn’t already exist. Alternatively, we can use instead `--experiment-id <experiment_id>`.
 
-#### Running with parameters
+##### Running with parameters
 We can also pass parameters to the project such as:
 ```bash
 mlflow run . -P learning_rate=0.001 -P epochs=20 --experiment-name <experiment_name>
 ```
 
-#### Running specific entry points
+##### Running specific entry points
 By default, `mlflow run .` executes the `main` entry point defined in the `MLproject` file. If we want to run a different entry point, we need to specify it using the `-e` or `--entry-point` flag:
 ```bash
 mlflow run . --entry-point <NAME> --experiment-name <experiment_name>
+```
+
+#### Option 2: Running with the MLflow API
+Another way to run an MLflow project is by using the MLflow API in a Python script. This method is useful if we need more flexibility or want to integrate MLflow runs into a larger Python application. Here’s a example syntax for running an MLflow project using the API:
+
+```python
+import mlflow
+
+# Define the parameters for the run
+parameters = {
+    "parameter1": parameter1_value,
+    "parameter2": parameter2_value
+}
+
+# Run the MLflow project using the API
+mlflow.projects.run(
+    uri=".",  # The URI of the project. "." indicates the current directory
+    entry_point="main",  # The entry point to run
+    parameters=parameters,  # Pass the parameters dictionary
+    experiment_name="<experiment_name>"  # The name of the experiment
+)
+```
+
+To execute this script, create a Python file (e.g., `run.py`) and paste the above code into it. Then, run the script from the command line:
+```bash
+python run.py
 ```
