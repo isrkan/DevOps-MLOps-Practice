@@ -34,8 +34,18 @@ To run the MLflow project, follow these steps:
    Replace `<backend_store_uri>` and `<artifact_root>` with appropriate values. We can view our experiment runs and their details by navigating to the MLflow Tracking UI, typically accessible at `http://127.0.0.1:5000`.
 
 2. **Run the MLflow project:**
+   We have two options for running the project:
+
+   **Option 1: Using the MLflow CLI**
    Execute the project using the MLflow CLI. We can specify parameters such as `learning_rate` and `epochs`. For example:
    ```bash
    mlflow run . --experiment-name <experiment_name> -P learning_rate=0.01 -P epochs=10
    ```
    Replace `<experiment_name>` with the desired experiment name.
+
+   **Option 2: Using the MLflow API**
+   Alternatively, we can run the project using a Python script (e.g., `run.py`). This is useful if we want more control or need to integrate the run into a larger application. Run the script from the command line:
+   ```bash
+   python run.py
+   ```
+   This script will execute the project with the specified parameters and log the results to the specified experiment.
