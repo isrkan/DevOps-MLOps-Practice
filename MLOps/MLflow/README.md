@@ -77,7 +77,7 @@ mlflow server \
   ```
   This allows us to monitor the server's performance using Prometheus.
 
-## Start MLflow UI
+## Starting MLflow UI
 To start the MLflow UI:
 
 ```bash
@@ -254,3 +254,34 @@ mlflow artifacts download [--run-id <run_id> --artifact-path <artifact_path>] [-
 - **`-d, --dst-path <dst_path>`**: (Optional) The path to the local directory where the artifact should be downloaded. If not specified, a new uniquely-named directory will be created, unless the artifacts already exist locally, in which case their local path will be returned. 
 
 This command downloads the specified artifacts to our local filesystem.
+
+## Running an MLflow project
+The `mlflow run` command is used to execute an MLflow project from a specified URI. The command allows us to manage and execute ML workflows with reproducibility and consistency. To run an MLflow project, use the following command:
+```bash
+mlflow run [OPTIONS] URI
+```
+- **`URI`**: The location of the MLflow project. This could be a path to a local directory, a Git repository, or another remote location. If the project is in a Git repository, MLflow will clone the repository and run the project in a new working directory.
+
+#### Commonly used options
+- **`--entry-point <NAME>`**: Specifies which entry point in the MLflow project to run. The default entry point is `main`. If the specified entry point is not found, MLflow attempts to execute the file with the specified name directly, using Python or a shell, depending on the file type. For example,
+  ```bash
+  mlflow run . --entry-point train
+  ```
+  This runs the `train` entry point defined in the `MLproject` file.
+- **`--version <VERSION>`**: If the project is in a Git repository, this option specifies the version of the project to run, such as a specific branch, tag, or commit hash.
+  ```bash
+  mlflow run https://github.com/myproject.git --version main
+  ```
+  This runs the project from the `main` branch.
+- **`-P, --param-list <NAME=VALUE>`**: Passes parameters to the entry point. These parameters are defined in the `MLproject` file. The `name=value` format specifies the parameter name and its value.
+  ```bash
+  mlflow run . -P parameter1=0.01 -P parameter1=20
+  ```
+- **`--experiment-name <experiment_name>`**: Specifies the name of the experiment under which to launch the run. If the experiment does not already exist, MLflow will create it.
+  ```bash
+  mlflow run . --experiment-name "My Experiment"
+  ```
+- **`--env-manager <env_manager>`**: Specifies the environment manager to use when running the project. Options include `local` (use the existing environment), `virtualenv`, and `conda`. If not specified, MLflow automatically selects the appropriate environment manager based on the project’s configuration.
+  ```bash
+  mlflow run . --env-manager conda
+  ```
