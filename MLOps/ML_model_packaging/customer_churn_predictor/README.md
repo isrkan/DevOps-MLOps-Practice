@@ -61,9 +61,8 @@ pip show customer-churn-predictor
 
 ## Usage
 
-#### Importing the package
+#### Importing and using the package
 To use the churn predictor in the Python code, import it as follows:
-
 ```python
 from customer_churn_predictor import customer_churn_predictor, pipeline
 
@@ -72,6 +71,18 @@ churn_predictor = customer_churn_predictor.CustomerChurnPredictor()
 
 # Run the pipeline with the data
 pipeline.run_pipeline(churn_predictor.config, data_path='<path_to_csv_data_file>')
+```
+
+#### Creating predictions
+If we already have a trained model and want to generate predictions directly without retraining the model, we can do so as follows:
+```python
+from customer_churn_predictor import load_saved_model, predict_model
+
+# Load the trained model
+trained_models = load_saved_model.load_model('<path_to_trained_model_file>')
+
+# Use the trained model to make predictions on new data
+predictions = predict_model.predict_models(trained_models, new_data)
 ```
 
 #### Using command line
