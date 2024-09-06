@@ -4,7 +4,7 @@ This guide provides step-by-step instructions to package a machine learning mode
 
 ## Step 1: Develop the model in a Jupyter Notebook
 Start by developing the machine learning model in a Jupyter notebook. This is where we will experiment with different models, preprocess the data, and evaluate the performance. Perform the following steps in the notebook:
-  - Data loading: Load your dataset.
+  - Data loading: Load the dataset.
   - EDA: Explore the data to understand its characteristics, identify patterns, and uncover potential insights.
   - Data preprocessing: Clean and preprocess the data (e.g., handle missing values, encode categorical variables).
   - Feature engineering: Create new features if necessary.
@@ -50,7 +50,7 @@ We can quickly set up this directory structure using command-line commands, whic
 
 1. **Navigate to the desired directory** where we want to create the project:
    ```bash
-   cd /path/to/your/directory
+   cd /path/to/the/directory
    ```
 
 2. **Create the main project directory**:
@@ -109,7 +109,7 @@ This will set up the basic structure of the project. Remember, this is just a bo
 As we build our package, we can add or remove directories, files, and modules as needed. The key is to maintain a clear and organized structure that makes it easy for others (or us in the future) to understand and work with the code.
 
 ##### Using Cookiecutter Data Science
-Another option for setting up a project structure is to use Cookiecutter Data Science (CCDS). CCDS is a tool for setting up a data science package template, which is a bit different from the structure we outlined here but can be adjusted to fit your needs. To use Cookiecutter Data Science, follow these steps:
+Another option for setting up a project structure is to use Cookiecutter Data Science (CCDS). CCDS is a tool for setting up a data science package template, which is a bit different from the structure we outlined here but can be adjusted to fit our needs. To use Cookiecutter Data Science, follow these steps:
 1. **Install CCDS** using `pip`:
    ```bash
    pip install cookiecutter-data-science
@@ -158,7 +158,7 @@ The structure and content of these modules are just a starting point. Depending 
 - **`pipeline.py`**: Orchestrates the entire pipeline from data loading to prediction.
 
 ### 2.3 Create command-line scripts (Optional)
-The `scripts/` directory is an optional to the package. It contains Python scripts that provide command-line functionality, allowing users to interact with your package directly from the terminal. This can be particularly useful for automating tasks, running pipelines, or providing a simple interface for end-users who may not want to interact with the package programmatically and can run complex processes with a single command. CLI scripts can be easily integrated into automation pipelines, such as CI/CD workflows, cron jobs, or other scheduling systems.
+The `scripts/` directory is an optional to the package. It contains Python scripts that provide command-line functionality, allowing users to interact with our package directly from the terminal. This can be particularly useful for automating tasks, running pipelines, or providing a simple interface for end-users who may not want to interact with the package programmatically and can run complex processes with a single command. CLI scripts can be easily integrated into automation pipelines, such as CI/CD workflows, cron jobs, or other scheduling systems.
 
 We can set up a basic CLI script in `.py` files using Python's `argparse` library to handle command-line arguments. The scripts to include will depend on the specific needs of our project and the features of our package. Here are some examples of scripts that might be useful:
 
@@ -207,11 +207,11 @@ To package our project for distribution, we need a `setup.py` file. It serves as
 The setup file is essential for several reasons:
 - It allows our package to be easily distributed and installed by others. 
 - It specifies the dependencies our package requires, ensuring that all necessary libraries are installed when our package is installed.
-- It handles the versioning of your package, which is important for managing updates and maintaining compatibility with other packages.
+- It handles the versioning of our package, which is important for managing updates and maintaining compatibility with other packages.
 - It defines entry points for our package, such as command-line interfaces, making it easier for users to interact with our package.
 
 Create a Python file named `setup.py` in the root directory and use the `setup.py` file in this directory as an example. Adjust the arguments with the specific information and dependencies.
-- Before setting the Python version requirement in the file, we should know which version of Python our package is compatible with. We can check the Python version we are using by running the following command in your terminal:
+- Before setting the Python version requirement in the file, we should know which version of Python our package is compatible with. We can check the Python version we are using by running the following command in our terminal:
 ```bash
 python --version
 ```
@@ -250,7 +250,7 @@ Here are some useful commands to control file inclusion:
   ```
 
 ##### Example
-To include all YAML configuration files from the `config` directory and exclude test files, your `MANIFEST.in` might look like this:
+To include all YAML configuration files from the `config` directory and exclude test files, our `MANIFEST.in` might look like this:
 ```plaintext
 include MyPackage/config/*.yaml
 exclude MyPackage/tests/*
@@ -288,10 +288,27 @@ A `README.md` file explains how to use our package and provides an overview of t
 ## Step 7: Install and test the package
 After organizing the code into a package, install the package locally to ensure everything works as expected. 
 
-1. To install the package locally, we can use the `pip` command. By running the following command in the root directory of the project (where the setup.py file is located), pip will install the package along with all its dependencies specified in requirements.txt:
+1. **Create source and built distributions**: Before installing the package, we need to create source and built distributions. These distributions are the standard way to package Python code for distribution, which are more modern and flexible formats compared to the older "egg" format. Here's a brief explanation:
+  - **Source distribution (sdist)**: This is a distribution format that includes the package's source code, typically compressed into a `.tar.gz` file. It is useful for sharing our code in a way that others can build and install it on their systems.
+  - **Built distribution (bdist_wheel)**: This is a pre-built binary distribution, usually a `.whl` (wheel) file. It's a ready-to-install package that users can install without needing to build the package from source. Wheel is the preferred format for distributing Python packages because it's faster and easier to install.
+
+  To create these distributions, run the following commands in the root directory of the project (where the `setup.py` file is located):
   ```bash
-  pip install .
+  python setup.py sdist bdist_wheel
   ```
+
+  This command will generate two directories:
+  - **`build/`**: This directory contains temporary files generated during the build process. These files are used to compile and prepare the package for distribution. It is not needed for installing the package and can be safely ignored or deleted after the build is complete and the distribution files are generated.
+  - **`dist/`**: This directory contains the distribution files that we actually need. These are the files we distribute or upload to package repositories like PyPI. It includes:
+    - A `.tar.gz` file for the source distribution.
+    - A `.whl` file for the built distribution.
+
+2. **Install the package locally** - Now that we have created the distributions, we can install the package locally using the `pip` command. By running the following command in the root directory of the project, `pip` will install the package along with all its dependencies specified in requirements.txt:
+  ```bash
+  pip install dist/our_package_name-0.1.0-py3-none-any.whl
+  ```
+
+  Replace `your_package_name-0.1.0-py3-none-any.whl` with the actual name of the wheel file generated in the previous step.
 
   This command installs the package locally on the system, allowing us to use it as if it were installed from PyPI. This is particularly useful for testing before distributing the package.
 
@@ -302,14 +319,14 @@ After organizing the code into a package, install the package locally to ensure 
 
   The `-e` option stands for "editable." When we install a package with `pip install -e .`, it creates a link between the package directory and our Python environment. This means that any changes we make to the package code are immediately reflected without the need to reinstall the package. Use this option when we are actively developing the package. It allows us to modify the code and test it in real-time without repeatedly reinstalling the package.
 
-2. Once installed, we should test the package by either running command-line scripts or importing it in a Python script.
+2. **Test the package** - Once installed, we should test the package by either running command-line scripts or importing it in a Python script.
 
 ## Step 8: Push the project to a Git repository
-After testing the package locally, the next step is to push the project to a Git repository. This allows others to access your code and makes it easier to share, collaborate, and deploy.
+After testing the package locally, the next step is to push the project to a Git repository. This allows others to access our code and makes it easier to share, collaborate, and deploy.
 
-Then, to install the package directly from your GitHub repository, you or others can use the following command:
+Then, to install the package directly from our GitHub repository, we can use the following command:
 ```bash
-pip install git+https://github.com/username/repository_name.git@main#egg=customer_churn_predictor&subdirectory=subdirectory_path
+pip install git+https://github.com/username/repository_name.git#subdirectory=subdirectory_path
 ```
 
 ## Step 9: Versioning and Changelog
