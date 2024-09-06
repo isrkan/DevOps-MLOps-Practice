@@ -32,9 +32,18 @@ git read-tree -mu HEAD
 cd "MLOps/ML_model_packaging/customer_churn_predictor"
 ```
 
-3. Install the package using `pip`:
+3. Build the package as a wheel first:
 ```
-pip install .
+python setup.py sdist bdist_wheel
+```
+
+This will create two types of distributions in the `dist/` folder:
+- Source distribution (`.tar.gz`)
+- Built wheel (`.whl`)
+
+4. After generating the wheel, install the package using `pip`:
+```
+pip install dist/customer_churn_predictor-0.1.0-py3-none-any.whl
 ```
 
 This will install the `customer_churn_predictor` package along with all required dependencies.
@@ -42,7 +51,12 @@ This will install the `customer_churn_predictor` package along with all required
 #### Option 2: Install directly from GitHub with pip
 Alternatively, we can install the package directly from the GitHub repository using `pip`.
 ```
-pip install "git+https://github.com/isrkan/DevOps-MLOps-Practice.git#egg=customer_churn_predictor&subdirectory=MLOps/ML_model_packaging/customer_churn_predictor"
+pip install "git+https://github.com/isrkan/DevOps-MLOps-Practice.git#subdirectory=MLOps/ML_model_packaging/customer_churn_predictor"
+```
+
+To verify that the package has been installed correctly, use the following command:
+```
+pip show customer-churn-predictor
 ```
 
 ## Usage
