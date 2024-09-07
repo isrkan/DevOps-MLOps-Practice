@@ -3,7 +3,7 @@
 This guide provides step-by-step instructions to package a machine learning model for deployment and distribution. The goal is to create a Python package that includes all the necessary components for training, evaluating, and predicting with our model.
 
 ## Step 1: Develop the model in a Jupyter Notebook
-Start by developing the machine learning model in a Jupyter notebook. This is where we will experiment with different models, preprocess the data, and evaluate the performance. Perform the following steps in the notebook:
+Start by developing the machine learning model in a Jupyter notebook. This is where we will experiment with different models, preprocess the data, and evaluate the performance. This directory is for initial exploration and development. Perform the following steps in the notebook:
   - Data loading: Load the dataset.
   - EDA: Explore the data to understand its characteristics, identify patterns, and uncover potential insights.
   - Data preprocessing: Clean and preprocess the data (e.g., handle missing values, encode categorical variables).
@@ -26,7 +26,7 @@ my_package/               # Main project directory
 │   └── model_exploration.ipynb
 ├── my_package/           # The core package directory containing all the functional modules
 │   ├── __init__.py
-│   ├── config/           # Configuration files (e.g., model parameters)
+│   ├── config/           # Configuration files (e.g., model parameters, MLflow settings)
 │   │   └── config.py
 │   ├── data/             # Data loading and preprocessing
 │   ├── features/         # Feature engineering
@@ -36,6 +36,7 @@ my_package/               # Main project directory
 │   ├── MainObject.py     # The main object or class that initialize configuration
 │   └── pipeline.py       # Pipeline to run the entire process end-to-end
 ├── tests/                # Unit tests for the code
+├── mlflow_experiments/   # Optional: MLflow project to track experiments
 ├── scripts/              # Optional: Scripts for command-line interface
 ├── requirements.txt      # Lists project dependencies
 ├── setup.py              # Configuration file for package installation
@@ -61,7 +62,7 @@ We can quickly set up this directory structure using command-line commands, whic
 
 3. **Create the subdirectories** inside the `my_package` directory:
    ```bash
-   mkdir -p notebooks my_package/config my_package/data my_package/features my_package/models my_package/visualization my_package/utils tests scripts
+   mkdir -p notebooks my_package/config my_package/data my_package/features my_package/models my_package/visualization my_package/utils tests mlflow_experiments scripts
    ```
 
 4. **Create `__init__.py` files** in the appropriate directories:
@@ -127,7 +128,7 @@ After setting up the directory structure, the next step is to move the code from
 ##### Explanation of the modules:
 The structure and content of these modules are just a starting point. Depending on our project’s needs, we might need to add more functions, split some of these modules further, or even merge them.
 
-- **`config/`**: Manage configuration settings for the package. This could include file paths, model parameters, or other settings that need to be configurable.
+- **`config/`**: Manage configuration settings for the package. This could include file paths, model parameters, MLflow configurations or other settings that need to be configurable.
   - `config.py`: Code to load and handle configurations.
   - YAML or JSON files : Store default and custom configurations for easy modification without changing the code.
   
@@ -194,7 +195,34 @@ This command will automatically discover and run all the test files within the `
 
 To ensure that different parts of our package code work together smoothly, we can erite integration tests in addition.
 
-## Step 4: Create a requirements file
+## Step 4: Create MLflow project (Optional)
+After completing the initial model development in a Jupyter notebook and packaging the code into a Python package, the next step is to set up a directory for MLflow experiments. This directory is for formal experiment tracking and model management. This step is optional but highly recommended for systematic experiment tracking, model management, and ensuring reproducibility.
+
+MLflow allows us to track experiments, log parameters, metrics, and artifacts, and manage different versions of models systematically. By separating MLflow experiments from the Jupyter notebooks, you maintain a clean and organized project structure. The notebooks serve as documentation and references for your initial explorations, while the MLflow setup is used for ongoing experiment management, fine-tuning, and deployment-ready model handling.
+
+#### MLflow project structure
+The MLflow experiments directory will have a specific structure that allows MLflow to track experiments, run them in different environments, and maintain reproducibility. Below is the general structure:
+```plaintext
+mlflow_experiments/           # MLflow project directory
+├── MLproject                 # MLflow project file (mandatory)
+├── conda.yaml                # Environment file for dependencies (optional but recommended)
+├── pipeline.py               # Main Python script that executes the ML code and logs experiments
+└── README.md                 # Project overview, setup instructions, and how to run it
+```
+
+- `MLproject`is the core file that defines the MLflow project. This file is mandatory and specifies the entry points for our code, the environment to run it in, and other essential configuration details.
+- `conda.yaml` defines the environment, including all dependencies required to run the ML code.
+- `pipeline.py` executes the entire ML pipeline, from data loading to model training and evaluation. It logs parameters, metrics, and artifacts for each experiment, allowing us to track what was done in each run.
+- `README.md` provides an overview of the MLflow project, including setup instructions and guidance on how to run the experiments.
+
+#### Conducting experiments and model management
+After we created the MLflow project in this step, we will:
+1. **Run multiple experiments**: Use `pipeline.py` to execute different experiments by varying models, hyperparameters, or data preprocessing techniques.
+2. **Track experiments**: MLflow will log all relevant details such as parameters, metrics, and output files, which allows for easy comparison and analysis.
+3. **Register the best models**: Based on the tracked results, decide which models to register in MLflow’s model registry for potential deployment.
+4. **Decide on model serving**: From the registered models, choose the best-performing one to serve in a production environment.
+
+## Step 5: Create a requirements file
 A requirements file (typically named `requirements.txt`) lists all the external Python packages and their specific versions that our project depends on. This file is essential for ensuring that our project can be easily installed and run on different environments.
 
 To create a requirements file, run the following command in the root directory:
@@ -202,7 +230,7 @@ To create a requirements file, run the following command in the root directory:
 pip freeze > requirements.txt
 ```
 
-## Step 5: Create the setup file
+## Step 6: Create the setup file
 To package our project for distribution, we need a `setup.py` file. It serves as the build script for `setuptools`, which is the standard tool used to package and distribute Python projects. This script will define the metadata about our package and provides instructions to `setuptools` on how to install and distribute our package. This file guides `pip` (which is a package installer for Python) in creating a distributable package format (e.g., `.whl` file).
 The setup file is essential for several reasons:
 - It allows our package to be easily distributed and installed by others. 
@@ -216,9 +244,9 @@ Create a Python file named `setup.py` in the root directory and use the `setup.p
 python --version
 ```
 
-## Step 6: Include additional files
+## Step 7: Include additional files
 
-#### 6.1 Include the `MANIFEST.in` file 
+#### 7.1 Include the `MANIFEST.in` file 
 The `MANIFEST.in` file is used to specify which additional files should be included in our package distribution that `setuptools` might not automatically pick up. This can include configuration files (e.g., YAML config files), documentation, data files, and any other non-code files necessary for our package to function correctly. 
 
 ##### Common Commands in `MANIFEST.in`
@@ -256,10 +284,10 @@ include MyPackage/config/*.yaml
 exclude MyPackage/tests/*
 ```
 
-#### 6.2 Create `.gitignore` file
+#### 7.2 Create `.gitignore` file
 A `.gitignore` file is used for managing our version control system. It specifies which files and directories should be ignored by Git. This is crucial for preventing unnecessary files (such as temporary files, build artifacts, and sensitive information) from being tracked and included in our version control history.
 
-#### 6.3 Create `CHANGELOG.md` file
+#### 7.3 Create `CHANGELOG.md` file
 The `CHANGELOG.md` file is used to document each change made to the package and is useful when debugging issues or upgrading to a new version. It records new features, bug fixes, and other modifications, along with the corresponding version numbers and dates. For example:
 
 ```markdown
@@ -274,7 +302,7 @@ The `CHANGELOG.md` file is used to document each change made to the package and 
 - Initial release of `MyPackage`.
 ```
 
-#### 6.3 Create a README file
+#### 7.4 Create a README file
 A `README.md` file explains how to use our package and provides an overview of the project and serves as the primary documentation for users and developers. It should include
 - Project title: The name of our project.
 - Description: A brief summary of what our package does and why it’s useful.
@@ -285,12 +313,12 @@ A `README.md` file explains how to use our package and provides an overview of t
 - Contributing: Guidelines for contributing to the project, if applicable.
 
 
-## Step 7: Install and test the package
+## Step 8: Install and test the package
 After organizing the code into a package, install the package locally to ensure everything works as expected. 
 
 1. **Create source and built distributions**: Before installing the package, we need to create source and built distributions. These distributions are the standard way to package Python code for distribution, which are more modern and flexible formats compared to the older "egg" format. Here's a brief explanation:
-  - **Source distribution (sdist)**: This is a distribution format that includes the package's source code, typically compressed into a `.tar.gz` file. It is useful for sharing our code in a way that others can build and install it on their systems.
-  - **Built distribution (bdist_wheel)**: This is a pre-built binary distribution, usually a `.whl` (wheel) file. It's a ready-to-install package that users can install without needing to build the package from source. Wheel is the preferred format for distributing Python packages because it's faster and easier to install.
+  - **Source distribution (`sdist`)**: This is a distribution format that includes the package's source code, typically compressed into a `.tar.gz` file. It is useful for sharing our code in a way that others can build and install it on their systems.
+  - **Built distribution (`bdist_wheel`)**: This is a pre-built binary distribution, usually a `.whl` (wheel) file. It's a ready-to-install package that users can install without needing to build the package from source. Wheel is the preferred format for distributing Python packages because it's faster and easier to install.
 
   To create these distributions, run the following commands in the root directory of the project (where the `setup.py` file is located):
   ```bash
@@ -308,7 +336,7 @@ After organizing the code into a package, install the package locally to ensure 
   pip install dist/our_package_name-0.1.0-py3-none-any.whl
   ```
 
-  Replace `your_package_name-0.1.0-py3-none-any.whl` with the actual name of the wheel file generated in the previous step.
+  Replace `our_package_name-0.1.0-py3-none-any.whl` with the actual name of the wheel file generated in the previous step.
 
   This command installs the package locally on the system, allowing us to use it as if it were installed from PyPI. This is particularly useful for testing before distributing the package.
 
@@ -321,7 +349,7 @@ After organizing the code into a package, install the package locally to ensure 
 
 2. **Test the package** - Once installed, we should test the package by either running command-line scripts or importing it in a Python script.
 
-## Step 8: Push the project to a Git repository
+## Step 9: Push the project to a Git repository
 After testing the package locally, the next step is to push the project to a Git repository. This allows others to access our code and makes it easier to share, collaborate, and deploy.
 
 Then, to install the package directly from our GitHub repository, we can use the following command:
@@ -329,7 +357,7 @@ Then, to install the package directly from our GitHub repository, we can use the
 pip install git+https://github.com/username/repository_name.git#subdirectory=subdirectory_path
 ```
 
-## Step 9: Versioning and Changelog
+## Step 10: Versioning and Changelog
 Maintaining version control and documenting changes is crucial as the package evolves. This helps both users and developers understand what has changed between versions.
 
 1. Update `setup.py` - Update the `version` in `setup.py` according to Semantic Versioning guidelines for managing version numbers. Semantic Versioning uses a three-part version number:
