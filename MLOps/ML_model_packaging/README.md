@@ -195,7 +195,15 @@ This command will automatically discover and run all the test files within the `
 
 To ensure that different parts of our package code work together smoothly, we can erite integration tests in addition.
 
-## Step 4: Create MLflow project (Optional)
+## Step 4: Create a requirements file
+A requirements file (typically named `requirements.txt`) lists all the external Python packages and their specific versions that our project depends on. This file is essential for ensuring that our project can be easily installed and run on different environments.
+
+To create a requirements file, run the following command in the root directory:
+```bash
+pip freeze > requirements.txt
+```
+
+## Step 5: Create MLflow project (Optional)
 After completing the initial model development in a Jupyter notebook and packaging the code into a Python package, the next step is to set up a directory for MLflow experiments. This directory is for formal experiment tracking and model management. This step is optional but highly recommended for systematic experiment tracking, model management, and ensuring reproducibility.
 
 MLflow allows us to track experiments, log parameters, metrics, and artifacts, and manage different versions of models systematically. By separating MLflow experiments from the Jupyter notebooks, you maintain a clean and organized project structure. The notebooks serve as documentation and references for your initial explorations, while the MLflow setup is used for ongoing experiment management, fine-tuning, and deployment-ready model handling.
@@ -215,20 +223,33 @@ mlflow_experiments/           # MLflow project directory
 - `pipeline.py` executes the entire ML pipeline, from data loading to model training and evaluation. It logs parameters, metrics, and artifacts for each experiment, allowing us to track what was done in each run.
 - `README.md` provides an overview of the MLflow project, including setup instructions and guidance on how to run the experiments.
 
+#### Setting up a conda environment for MLflow
+To ensure that our MLflow experiments run smoothly, it's crucial to set up a Conda environment within the `mlflow_experiments` directory. It is often more convenient and reliable to use a Conda environment when working with MLflow projects. Conda makes it easier to install and manage dependencies, especially those that require specific system libraries or have complex dependencies. Also, MLflow supports Conda environments natively, allowing us to specify the environment directly in our MLflow project configuration. This environment will include all the necessary dependencies required for our project.
+1. Navigate to the `mlflow_experiments` directory, create a new Conda environment and activate it:
+```bash
+cd mlflow_experiments
+conda create -n my_conda_package_env python=3.9
+conda activate my_conda_package_env
+```
+2. Install all the libraries listed in the `requirements.txt file`, which was created in Step 4:
+```bash
+pip install -r ../requirements.txt
+```
+3. Next, install MLflow within the Conda environment:
+```bash
+pip install mlflow
+```
+4. Now, generate the `conda.yaml` file, which will specify the environment configuration for MLflow:
+```bash
+conda env export --no-builds > conda.yaml
+```
+
 #### Conducting experiments and model management
 After we created the MLflow project in this step, we will:
 1. **Run multiple experiments**: Use `pipeline.py` to execute different experiments by varying models, hyperparameters, or data preprocessing techniques.
 2. **Track experiments**: MLflow will log all relevant details such as parameters, metrics, and output files, which allows for easy comparison and analysis.
 3. **Register the best models**: Based on the tracked results, decide which models to register in MLflow’s model registry for potential deployment.
 4. **Decide on model serving**: From the registered models, choose the best-performing one to serve in a production environment.
-
-## Step 5: Create a requirements file
-A requirements file (typically named `requirements.txt`) lists all the external Python packages and their specific versions that our project depends on. This file is essential for ensuring that our project can be easily installed and run on different environments.
-
-To create a requirements file, run the following command in the root directory:
-```bash
-pip freeze > requirements.txt
-```
 
 ## Step 6: Create the setup file
 To package our project for distribution, we need a `setup.py` file. It serves as the build script for `setuptools`, which is the standard tool used to package and distribute Python projects. This script will define the metadata about our package and provides instructions to `setuptools` on how to install and distribute our package. This file guides `pip` (which is a package installer for Python) in creating a distributable package format (e.g., `.whl` file).
