@@ -10,6 +10,9 @@ dist/
 build/
 *.egg-info/
 
+# MLflow runs
+mlruns/
+
 # IDE files
 .vscode/
 .idea/

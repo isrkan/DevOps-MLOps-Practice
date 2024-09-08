@@ -1,0 +1,12 @@
+name: Customer_Churn_Prediction
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      data_path: {type: str, description: "Path to the dataset file"}
+      test_size: {type: float, default: 0.2, description: "Test size for train-test split"}
+      random_state: {type: int, default: 42, description: "Random state for reproducibility"}
+    command: >
+      python pipeline.py --data_path {data_path} --test_size {test_size} --random_state {random_state}
