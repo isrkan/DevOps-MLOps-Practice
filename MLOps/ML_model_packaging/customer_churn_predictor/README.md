@@ -74,6 +74,8 @@ pipeline.run_pipeline(churn_predictor.config, data_path='<path_to_csv_data_file>
 ```
 
 #### Creating predictions
+
+##### Option 1: Using a loaded model
 If we already have a trained model and want to generate predictions directly without retraining the model, we can do so as follows:
 ```python
 from customer_churn_predictor import load_saved_model, predict_model
@@ -83,6 +85,15 @@ trained_models = load_saved_model.load_model('<path_to_trained_model_file>')
 
 # Use the trained model to make predictions on new data
 predictions = predict_model.predict_models(trained_models, new_data)
+```
+
+##### Option 2: Using a served model via MLflow REST API
+If we have a model served through MLflow, we can generate predictions by making a REST API call. To do this, ensure that the model is served on the required port and then run the following code:
+```python
+from customer_churn_predictor.models import predict_via_api
+
+# Generate predictions using the served model via the REST API
+predictions = predict_via_api.predict_via_api(new_data, "http://127.0.0.1:<port>/invocations")
 ```
 
 #### Using command line

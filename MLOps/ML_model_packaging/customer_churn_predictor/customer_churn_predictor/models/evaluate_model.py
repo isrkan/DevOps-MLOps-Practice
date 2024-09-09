@@ -11,8 +11,10 @@ def evaluate_models(trained_models, X_test, y_test):
     - y_test (Series): The true labels for the test data.
 
     Returns:
-    - None: Outputs the evaluation metrics to the console and logs.
+    - evaluation_results (dict): A dictionary containing the evaluation metrics for each model.
     """
+    evaluation_results = {}
+
     try:
         for name, model in trained_models.items():
             # Predict
@@ -20,6 +22,11 @@ def evaluate_models(trained_models, X_test, y_test):
 
             # Evaluate
             accuracy = accuracy_score(y_test, y_pred)
+            class_report = classification_report(y_test, y_pred, output_dict=True)
+            conf_matrix = confusion_matrix(y_test, y_pred)
+
+
+            # Log to console and to logging
             print(f'{name} Model accuracy: {accuracy:.2f}')
             logging.info(f'{name} Model accuracy: {accuracy:.2f}')
 
@@ -31,6 +38,14 @@ def evaluate_models(trained_models, X_test, y_test):
             print(confusion_matrix(y_test, y_pred))
             logging.info(f'Confusion matrix for {name} model:\n{confusion_matrix(y_test, y_pred)}')
 
+            # Store metrics in the dictionary
+            evaluation_results[name] = {
+                "accuracy": accuracy,
+                "classification_report": class_report,
+                "confusion_matrix": conf_matrix
+            }
+
+            return evaluation_results
     except Exception as e:
         logging.error(f"An unexpected error occurred while evaluating models: {e}")
         print(f"An unexpected error occurred while evaluating models: {e}")

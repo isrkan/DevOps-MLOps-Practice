@@ -17,7 +17,9 @@ def calculate_feature_importance(trained_model, feature_names, save_path=None):
     """
     try:
         if not hasattr(trained_model, 'feature_importances_'):
-            raise AttributeError("The trained model does not have a feature_importances_ attribute.")
+            logging.warning(f"The trained model does not have a feature_importances_ attribute.")
+            print(f"The trained model does not have a feature_importances_ attribute.")
+            return None, None
 
         # Feature importances
         feature_importances = trained_model.feature_importances_
@@ -48,6 +50,7 @@ def calculate_feature_importance(trained_model, feature_names, save_path=None):
         logging.info("Top 5 most important features:\n%s", feature_importance_df.head())
         print(feature_importance_df.head())
 
+        return plt.gcf(), feature_importance_df
     except AttributeError as ae:
         logging.error(f"AttributeError occurred: {ae}")
         print(f"AttributeError occurred: {ae}")
