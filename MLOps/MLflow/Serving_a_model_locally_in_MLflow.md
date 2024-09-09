@@ -57,8 +57,8 @@ In cases where the model is registered in the MLflow Model Registry, we can depl
 
 ## Check the server status
 After serving the model, the MLflow scoring server exposes two key endpoints:
-    - `/ping`: Used to check if the server is running. We can visit `http://127.0.0.1:<PORT_NUMBER>/ping` in your browser to ensure the server is alive.
-    - `/invocations`: Used to send data for model predictions. The model will be available for prediction at `http://127.0.0.1:<PORT_NUMBER>/invocations`, and we can make predictions by sending POST requests to this URL.
+   - `/ping`: Used to check if the server is running. We can visit `http://127.0.0.1:<PORT_NUMBER>/ping` in your browser to ensure the server is alive.
+   - `/invocations`: Used to send data for model predictions. The model will be available for prediction at `http://127.0.0.1:<PORT_NUMBER>/invocations`, and we can make predictions by sending POST requests to this URL.
 
 ---
 
