@@ -148,6 +148,7 @@ The structure and content of these modules are just a starting point. Depending 
   - `feature_importance.py`: Analyze and visualize feature importance if applicable.
   - `model_serialization.py`: Save and load trained models, ensuring they can be reused later.
   - `load_saved_model.py`: Load previously trained models for making predictions without retraining them each time.
+  - `predict_via_api.py`: Make predictions by sending data to a model served via an MLflow REST API, allowing for predictions from a deployed model without needing to load it locally.
 
 - **`visualization/`**: Visualization tools.
   - `visualize.py`: Functions to create visualizations that help with data analysis and model interpretation.
@@ -250,6 +251,14 @@ After we created the MLflow project in this step, we will:
 2. **Track experiments**: MLflow will log all relevant details such as parameters, metrics, and output files, which allows for easy comparison and analysis.
 3. **Register the best models**: Based on the tracked results, decide which models to register in MLflow’s model registry for potential deployment.
 4. **Decide on model serving**: From the registered models, choose the best-performing one to serve in a production environment.
+
+#### Serving the model
+Once we have identified the best model version from our registered models, we can serve it using MLflow's model serving capabilities. This allows us to deploy the model for production use, making it accessible via a REST API. To serve a specific version of the registered model, run the following command:
+```bash
+mlflow models serve -m "models:/<MODEL_NAME>/<VERSION_NUMBER>" --port <PORT_NUMBER> --env-manager conda
+```
+
+Replace `<MODEL_NAME>`, `<VERSION_NUMBER>`, and `<PORT_NUMBER>` with the appropriate values. This command starts a REST API endpoint for our model, allowing us to make predictions by sending data to the API.
 
 ## Step 6: Create the setup file
 To package our project for distribution, we need a `setup.py` file. It serves as the build script for `setuptools`, which is the standard tool used to package and distribute Python projects. This script will define the metadata about our package and provides instructions to `setuptools` on how to install and distribute our package. This file guides `pip` (which is a package installer for Python) in creating a distributable package format (e.g., `.whl` file).
