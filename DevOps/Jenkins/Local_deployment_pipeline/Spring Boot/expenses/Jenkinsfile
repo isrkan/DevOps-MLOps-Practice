@@ -25,5 +25,34 @@ pipeline {
                 }
             }
         }
+        stage('Build') {
+            steps {
+                script {
+                    dir('DevOps-MLOps-Practice/DevOps/Jenkins/Local_deployment_pipeline/Spring Boot/expenses') {
+                        // Use Maven to compile the Spring Boot application
+                        bat '''
+                            mvn clean install
+                        '''
+                    }
+                }
+            }
+        }
+        stage('Run') {
+            steps {
+                script {
+                    dir('DevOps-MLOps-Practice/DevOps/Jenkins/Local_deployment_pipeline/Spring Boot/expenses') {
+                        // Run the Spring Boot application
+                        sh '''
+                            mvn spring-boot:run &
+                        '''
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline completed!'
+        }
     }
 }
