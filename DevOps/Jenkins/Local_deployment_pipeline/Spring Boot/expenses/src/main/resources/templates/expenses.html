@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Expenses</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/expenses.css}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Expenses</h1>
+            </div>
+            <ul class="expenses-list">
+                <li th:each="expense : ${expenses}" th:class="${expense.approved} ? 'expense-item approved' : 'expense-item'">
+                    <p><strong>Amount:</strong> <span th:text="${expense.amount}"></span></p>
+                    <p><strong>Category:</strong> <span th:text="${expense.category}"></span></p>
+                    <p><strong>Description:</strong> <span th:text="${expense.description}"></span></p>
+                    <p><strong>Approved:</strong> <span th:text="${expense.approved} ? 'Yes' : 'No'"></span></p>
+                    <p><strong>Added By:</strong> <span th:text="${expense.addedBy}"></span></p>
+                </li>
+            </ul>
+            <a th:href="@{/add-expense}" class="add-expense-link">Add Expense</a>
+        </div>
+    </body>
+</html>
