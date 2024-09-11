@@ -42,7 +42,7 @@ pipeline {
                 script {
                     dir('DevOps-MLOps-Practice/DevOps/Jenkins/Local_deployment_pipeline/Spring Boot/expenses') {
                         // Run the Spring Boot application
-                        sh '''
+                        bat '''
                             mvn spring-boot:run &
                         '''
                     }
