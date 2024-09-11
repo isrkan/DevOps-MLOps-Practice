@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Perform sparse checkout of the specific folder
+                    git branch: 'main',
+                        url: 'https://github.com/xxx/MyRepository.git',
+                        changelog: false, // Don't track changes for the entire repo
+                        poll: true // Poll for changes
+
+                    // Configure sparse checkout to only pull the specific folder
+                    sh '''
+                        git config core.sparseCheckout true
+                        echo "DevOps/Jenkins/Local_deployment_pipeline/Spring Boot/expenses" > .git/info/sparse-checkout
+                        git read-tree -mu HEAD
+                    '''
+                }
+            }
+        }
+    }
+}
