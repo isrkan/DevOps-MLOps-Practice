@@ -4,16 +4,22 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    // Perform sparse checkout of the specific folder
-                    git branch: 'main',
-                        url: 'https://github.com/isrkan/DevOps-MLOps-Practice.git',
-                        changelog: false, // Don't track changes for the entire repo
-                        poll: true // Poll for changes
-
-                    // Configure sparse checkout to only pull the specific folder
+                    // Clone the repository without checking out files initially
                     bat '''
-                        git config core.sparseCheckout true
-                        echo "DevOps/Jenkins/Local_deployment_pipeline/Spring Boot/expenses" > .git/info/sparse-checkout
+                        git clone --no-checkout https://github.com/isrkan/DevOps-MLOps-Practice.git
+                        cd DevOps-MLOps-Practice
+
+                        # Initialize sparse-checkout with cone mode for better performance
+                        git sparse-checkout init --cone
+
+                        # Set the specific folder path for sparse checkout
+                        git sparse-checkout set "DevOps/Jenkins/Local_deployment_pipeline/Spring Boot/expenses"
+
+                        # Fetch and pull changes from the remote repository
+                        git fetch
+                        git pull
+
+                        # Update the working directory to match the index
                         git read-tree -mu HEAD
                     '''
                 }
