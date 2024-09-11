@@ -6,12 +6,12 @@ pipeline {
                 script {
                     // Perform sparse checkout of the specific folder
                     git branch: 'main',
-                        url: 'https://github.com/xxx/MyRepository.git',
+                        url: 'https://github.com/isrkan/DevOps-MLOps-Practice.git',
                         changelog: false, // Don't track changes for the entire repo
                         poll: true // Poll for changes
 
                     // Configure sparse checkout to only pull the specific folder
-                    sh '''
+                    bat '''
                         git config core.sparseCheckout true
                         echo "DevOps/Jenkins/Local_deployment_pipeline/Spring Boot/expenses" > .git/info/sparse-checkout
                         git read-tree -mu HEAD
