@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Approve Expense</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/expenses/approve-expense.css' %}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Approve Expense</h1>
+            </div>
+            <form action="{% url 'approve_expense' expense.id %}" method="post">
+                {% csrf_token %}
+                <p><strong>Amount:</strong> {{ expense.amount }}</p>
+                <p><strong>Category:</strong> {{ expense.category }}</p>
+                <p><strong>Description:</strong> {{ expense.description }}</p>
+                <p><strong>Approved:</strong> {{ expense.approved|yesno:"Yes,No" }}</p>
+                <p><strong>Added By:</strong> {{ expense.added_by }}</p>
+                <button type="submit">
+                    {% if expense.approved %}
+                        Disapprove
+                    {% else %}
+                        Approve
+                    {% endif %}
+                </button>
+            </form>
+            <a href="{% url 'expenses_list' %}" class="back-link">Back to Expenses List</a>
+        </div>
+    </body>
+</html>

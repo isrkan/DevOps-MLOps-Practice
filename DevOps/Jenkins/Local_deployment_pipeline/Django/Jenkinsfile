@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Clone the repository without checking out files initially
+                    bat '''
+                        git clone --no-checkout https://github.com/isrkan/DevOps-MLOps-Practice.git
+                        cd DevOps-MLOps-Practice
+
+                        # Initialize sparse-checkout with cone mode for better performance
+                        git sparse-checkout init --cone
+
+                        # Set the specific folder path for sparse checkout
+                        git sparse-checkout set "DevOps/Jenkins/Local_deployment_pipeline/Django"
+
+                        # Fetch and pull changes from the remote repository
+                        git fetch
+                        git pull
+
+                        # Update the working directory to match the index
+                        git read-tree -mu HEAD
+                    '''
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    dir('DevOps-MLOps-Practice/DevOps/Jenkins/Local_deployment_pipeline/Django') {
+                        // Install the required Python dependencies using pip
+                        bat '''
+                            pip install -r requirements.txt
+                        '''
+                    }
+                }
+            }
+        }
+        stage('Run') {
+            steps {
+                script {
+                    dir('DevOps-MLOps-Practice/DevOps/Jenkins/Local_deployment_pipeline/Django') {
+                        // Run the Django application
+                        bat '''
+                            python manage.py
+                        '''
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline completed!'
+        }
+    }
+}
