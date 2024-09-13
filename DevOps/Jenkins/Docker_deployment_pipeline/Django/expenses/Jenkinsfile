@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Clone the repository without checking out files initially
+                    bat '''
+                        git clone --no-checkout https://github.com/isrkan/DevOps-MLOps-Practice.git
+                        cd DevOps-MLOps-Practice
+
+                        # Initialize sparse-checkout with cone mode for better performance
+                        git sparse-checkout init --cone
+
+                        # Set the specific folder path for sparse checkout
+                        git sparse-checkout set "DevOps/Jenkins/Local_deployment_pipeline/Django"
+
+                        # Fetch and pull changes from the remote repository
+                        git fetch
+                        git pull
+
+                        # Update the working directory to match the index
+                        git read-tree -mu HEAD
+                    '''
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dir('DevOps-MLOps-Practice/DevOps/Jenkins/Docker_deployment_pipeline/Django/expenses') {
+                        // Build the Docker image using docker-compose
+                        bat '''
+                            docker-compose build
+                        '''
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy with Docker Compose') {
+            steps {
+                script {
+                    dir('DevOps-MLOps-Practice/DevOps/Jenkins/Docker_deployment_pipeline/Django/expenses') {
+                        // Deploy the Django application using docker-compose
+                        bat '''
+                            docker-compose down   // Stop any running containers
+                            docker-compose up --build -d   // Build and run containers in detached mode
+                        '''
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'Pipeline completed!'
+        }
+    }
+}

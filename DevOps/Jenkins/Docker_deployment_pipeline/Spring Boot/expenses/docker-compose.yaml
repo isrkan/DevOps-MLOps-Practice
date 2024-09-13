@@ -1,0 +1,45 @@
+version: '1.0' # Specifies the version of Docker Compose file format
+
+# Defines the services that make up the application
+# Each service represents a container that will be managed by docker compose
+services:
+  # The name of the service. This identifier is used when referencing this service in other configurations or during container management
+  expenses:
+    # Specifies the build context for the Spring Boot application. It determines how the docker image for this service is built
+    build:
+      # Specifies the directory containing the dockerfile and other necessary files
+      context: .
+      # Dockerfile specifies the name of the Dockerfile to use. This is optional if the file is named Dockerfile
+      dockerfile: Dockerfile
+    # Exposes port 8082 on the host machine and maps it to port 8081 on the container
+    ports:
+      - "8082:8081"
+    # Sets environment variables for the Spring Boot application and used to configure the app's behavior
+    environment:
+      # Specifies the profile to be used by the Spring Boot application (e.g., development, production)
+      - SPRING_PROFILES_ACTIVE=development
+      # Specifies the database URL for connecting to the PostgreSQL database
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/template1
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres1
+
+  # Defines the PostgreSQL database service
+  postgres:
+    # Uses the official PostgreSQL image from Docker Hub
+    image: postgres:15
+    # Exposes port 5432 on the host machine and maps it to port 5432 on the container
+    ports:
+      - "5432:5432"
+    # Sets environment variables for the PostgreSQL database configuration
+    environment:
+      - POSTGRES_DB=expenses
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres1
+    # Creates a named volume to persist database data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# Defines named volumes that can be shared and persisted across containers
+volumes:
+  # Creates a named volume for the PostgreSQL data
+  postgres_data:
