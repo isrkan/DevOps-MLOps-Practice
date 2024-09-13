@@ -14,7 +14,7 @@ pipeline {
                         git sparse-checkout init --cone
 
                         # Set the specific folder path for sparse checkout
-                        git sparse-checkout set "DevOps/Jenkins/Local_deployment_pipeline/Spring Boot/expenses"
+                        git sparse-checkout set "DevOps/Jenkins/Docker_deployment_pipeline/Spring Boot/expenses"
 
                         # Fetch and pull changes from the remote repository
                         git fetch
