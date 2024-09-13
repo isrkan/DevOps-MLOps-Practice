@@ -59,8 +59,8 @@ pipeline {
                     dir('DevOps-MLOps-Practice/DevOps/Jenkins/Docker_deployment_pipeline/Spring Boot/expenses') {
                         // Deploy the application using docker-compose
                         bat '''
-                            docker-compose down    // Stop any existing containers
-                            docker-compose up -d   // Start new containers in detached mode
+                            docker-compose down    REM Stop any running containers
+                            docker-compose up -d   REM Build and run containers in detached mode
                         '''
                     }
                 }
