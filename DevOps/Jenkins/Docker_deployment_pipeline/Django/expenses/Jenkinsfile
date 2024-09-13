@@ -45,9 +45,10 @@ pipeline {
                 script {
                     dir('DevOps-MLOps-Practice/DevOps/Jenkins/Docker_deployment_pipeline/Django/expenses') {
                         // Deploy the Django application using docker-compose
+                        // Stop any running containers, then build and run containers in detached mode
                         bat '''
-                            docker-compose down   REM Stop any running containers
-                            docker-compose up --build -d   REM Build and run containers in detached mode
+                            docker-compose down
+                            docker-compose up --build -d
                         '''
                     }
                 }
