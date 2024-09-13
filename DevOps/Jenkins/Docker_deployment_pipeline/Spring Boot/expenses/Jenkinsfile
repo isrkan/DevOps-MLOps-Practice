@@ -30,7 +30,7 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 script {
-                    dir('DevOps-MLOps-Practice/DevOps/Jenkins/Docker_deployment_pipeline/SpringBoot/expenses') {
+                    dir('DevOps-MLOps-Practice/DevOps/Jenkins/Docker_deployment_pipeline/Spring Boot/expenses') {
                         // Build the Spring Boot application using Maven
                         bat '''
                             mvn clean install
