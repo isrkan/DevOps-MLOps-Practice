@@ -90,6 +90,12 @@ This simple pipeline includes three stages: build, test, and deploy.
     - **Nodes**: Go to **Manage Jenkins** > **Manage Nodes** to add or remove nodes.
     - **Agents**: Jenkins agents can be managed through the Nodes page, allowing us to scale our builds across multiple machines.
 
+## Jenkinsfile
+A Jenkinsfile is a text file that contains the definition of a Jenkins Pipeline and is stored in the source code repository. This allows us to define build, test, and deployment workflows as code, which is known as pipeline as code. The main advantage of using a Jenkinsfile is that it enables version control of the CI/CD pipeline, making it easier to track changes, review, and collaborate on automation processes.
+- **Code as configuration**: The CI/CD pipeline is stored as code, making it easier to manage, track, and review using a version control system like Git along with the application code.
+- **Pipeline as code**: By defining pipelines in a Jenkinsfile, we ensure that our build, test, and deployment processes are reproducible and can be automated.
+- **Consistency**: Having a Jenkinsfile ensures consistent deployment processes across different environments (e.g., development, staging, production).
+
 
 ## Best practices for Jenkins
 - **Use pipelines**: Prefer pipelines over freestyle jobs for better scalability and maintenance.
