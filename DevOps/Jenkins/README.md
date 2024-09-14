@@ -71,7 +71,12 @@ pipeline {
 }
 ```
 
-This simple pipeline includes three stages: build, test, and deploy.
+This simple pipeline includes three stages: build, test, and deploy. Key Components:
+1. **`pipeline {}`**: The pipeline block defines the overall structure of the pipeline.
+2. **`agent {}`**: Defines where the pipeline will run. For example, `any` means it can run on any available Jenkins agent.
+3. **`stages {}`**: A series of stages of the CI/CD process. Each stage represents a part of the pipeline (e.g., checkout, build, test, deploy).
+4. **`steps {}`**: The individual tasks or commands to execute in each stage.
+5. **`post {}`**: Defines actions that run after the pipeline finishes, such as cleanup or sending notifications.
 
 
 ## Integrating Jenkins with development workflow
