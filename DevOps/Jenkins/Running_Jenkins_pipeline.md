@@ -8,6 +8,7 @@ This guide explains how to set up and run the Jenkins pipeline for building and 
   - **For Spring Boot**: Ensure that **Maven** is installed and configured.
   - **For Django, Flask, FastAPI**: Ensure **Python** (with **pip**) is installed.
 - **Git installed**: Git should be installed and added to the system's PATH.
+- **Docker installed** (if deploying with Docker): Ensure Docker is installed and running on our machine.
 
 ### Steps to configure and run the Jenkins pipeline
 
@@ -86,7 +87,7 @@ This guide explains how to set up and run the Jenkins pipeline for building and 
 
 #### Step 5: Monitor the build process
 - The build progress can be monitored by clicking on the job's **Build History** and selecting the running build.
-- View the console output to track the stages, including `Checkout`, `Build`, and `Run`.
+- View the console output to track the stages, including `Checkout`, `Build`, and `Run` or `Deploy`.
 
 #### Step 6: Check the running application
-Once the `Run` stage completes, our application should be running on `localhost`. we can check it by navigating to `http://localhost:<port>` (using the port specified in the application).
+Once the `Run` or `Deploy` stage completes, our application should be running on `localhost` or Docker containers. we can check it by navigating to `http://localhost:<port>` (using the port specified in the application or in the `docker-compose.yml` file).
