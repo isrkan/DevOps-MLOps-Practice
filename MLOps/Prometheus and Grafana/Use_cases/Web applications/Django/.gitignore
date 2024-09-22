@@ -1,0 +1,9 @@
+expenses/__pycache__/
+expenses/migrations/__pycache__/
+expenses_project/__pycache__/
+
+# Virtual environment
+venv/
+
+### PyCharm IDEA ###
+.idea
