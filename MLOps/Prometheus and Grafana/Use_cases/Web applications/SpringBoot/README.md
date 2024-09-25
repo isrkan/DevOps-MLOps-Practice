@@ -6,7 +6,7 @@ In this guide, we will walk through how to monitor a Spring Boot application usi
 - A Spring Boot application running locally.
 - Prometheus installed and running on our system.
 
-### Step 1: Update the Spring Boot app
+### Step 1: Update the Spring Boot app for Prometheus
 To monitor the Spring Boot application, we need to prepare it to expose metrics in a format that Prometheus can scrape. We achieve this by integrating **Micrometer** and **Spring Boot Actuator**. Micrometer is a library that provides production-ready metrics for monitoring.
 - **Spring Boot Actuator**: This module exposes several useful endpoints (e.g., `/health`, `/info`, etc.) to help monitor and manage our Spring Boot application. It allows us to expose metrics, health checks, environment information, and more.
 - **Micrometer**: Micrometer is a library that provides production-ready metrics for monitoring. Micrometer integrates with Prometheus to provide these metrics in a format that Prometheus can scrape.
@@ -147,7 +147,7 @@ These default metrics are useful for monitoring the overall performance and heal
 
 ---
 
-## Add custom metrics
+## Add custom metrics (Optional)
 Sometimes, default metrics are not enough. We may want to track custom metrics specific to our application's business logic. This can include tracking the number of user logins, the processing time of a specific tasks, number of orders processed or failed transactions. In a typical Spring Boot project structure, it’s a good practice to create a dedicated package for services that handle specific business logic and to house the custom metrics logic. For example:
 ```
 src/main/java/com/example/ourapp

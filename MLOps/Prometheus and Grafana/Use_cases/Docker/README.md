@@ -93,7 +93,7 @@ Before starting the Docker Compose stack, ensure that our Spring Boot applicatio
 This will ensure the Spring Boot app is ready to expose metrics.
 
 ### 4. For Django applications: Update the `ALLOWED_HOSTS` setting
-1. **Locate Your Django Settings**: Open the `settings.py` file.
+1. Open the `settings.py` file.
 
 2. **Update `ALLOWED_HOSTS`**: Add the service name (in this case, `expenses`) to the `ALLOWED_HOSTS` list. Our `ALLOWED_HOSTS` setting should look something like this:
    ```python
@@ -205,4 +205,4 @@ Here are some key metrics we can use to monitor our containerized application:
 
 ## Scaling and customizing the setup
 
-- **Custom Metrics**: If you need to monitor custom metrics from your application (e.g., business logic metrics in Django or Spring Boot), integrate Prometheus directly within the web app using libraries like `django-prometheus` or `micrometer`.
+- **Custom Metrics**: If we need to monitor custom metrics from our application (e.g., business logic metrics in Django or Spring Boot), integrate Prometheus directly within the web app using libraries like `django-prometheus` or `micrometer`.
