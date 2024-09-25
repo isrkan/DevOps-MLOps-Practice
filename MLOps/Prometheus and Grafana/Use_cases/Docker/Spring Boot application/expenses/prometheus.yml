@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 5s  # Scrape metrics every 5 seconds
+
+scrape_configs:
+  # Monitor Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Monitor Docker containers via cAdvisor
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  # Monitor Spring Boot application
+  - job_name: 'expenses'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['expenses:8081']  # Use the service name in Docker and the internal container port

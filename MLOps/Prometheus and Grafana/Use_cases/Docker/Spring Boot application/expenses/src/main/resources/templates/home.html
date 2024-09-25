@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Home</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/styles/home.css}" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Expenses Management System</h1>
+            </div>
+            <a th:href="@{/expenses}" class="expenses-link">View Expenses</a>
+        </div>
+    </body>
+</html>
