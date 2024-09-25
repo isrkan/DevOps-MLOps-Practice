@@ -1,0 +1,101 @@
+version: '1.0'
+
+services:
+  # Django application service
+  expenses:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8003"
+    environment:
+      - DJANGO_SETTINGS_MODULE=expenses_project.settings
+      - MYSQL_DATABASE=expenses
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=mysql1
+      - MYSQL_HOST=db
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py loaddata data.json &&
+             python manage.py collectstatic --noinput &&
+             gunicorn --bind 0.0.0.0:8003 expenses_project.wsgi:application"
+    # Optional: Networks can be defined to isolate services
+    networks:
+      - monitoring
+
+  # MySQL database service
+  db:
+    image: mysql:9.0
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=expenses
+      - MYSQL_ROOT_PASSWORD=mysql1
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - monitoring
+
+  # cAdvisor service for monitoring Docker containers
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8083:8080"  # Expose cAdvisor metrics on port 8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - monitoring
+
+  # Prometheus service to scrape metrics from cAdvisor, Django, and MySQL
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"  # Expose Prometheus on port 9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - monitoring
+    depends_on:
+      - cadvisor
+      - expenses
+      - db
+
+  # Grafana service for visualizing Prometheus metrics
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3001:3000"  # Grafana default port
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin  # Default Grafana admin username
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Default Grafana admin password
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+# Define named volumes for persistent storage
+volumes:
+  mysql_data:
+  grafana-storage:  # Creates a named volume for Grafana data
+
+# Define the network for inter-container communication
+networks:
+  monitoring:
