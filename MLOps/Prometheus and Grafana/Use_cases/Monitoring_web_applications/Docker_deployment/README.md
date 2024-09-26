@@ -8,7 +8,6 @@ In this guide, we will configure Prometheus to monitor the performance of contai
 ## Step 1: Expose web application metrics
 To monitor a web application like Django or Spring Boot, we need to expose application-specific metrics in a format that Prometheus can scrape. The method for doing this varies slightly between frameworks. Instructions for some frameworks are provided in the `Web applications` directory within this repository. We can follow those guides (for Spring Boot and Django, follow the first two steps of the corresponding guides).
 
-
 ## Step 2: Configure Prometheus to scrape both Docker and application metrics
 To scrape both **container metrics** (via cAdvisor) and **application metrics** (e.g., Django or Spring Boot), follow these steps:
 
