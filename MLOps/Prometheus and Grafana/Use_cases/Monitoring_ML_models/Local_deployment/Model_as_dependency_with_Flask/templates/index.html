@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Churn Prediction App</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Welcome to the Churn Prediction App!</h1>
+            <div class="links">
+                <a href="{{ url_for('run_pipeline') }}">Run Pipeline</a>
+                <a href="{{ url_for('run_predict') }}">Predict Churn</a>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Churn Prediction Results</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/predict_styles.css') }}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Churn Prediction Results</h1>
+            <p>Predictions plotted against MonthlyCharges</p>
+            <div class="plot-container">
+                <img src="data:image/png;base64,{{ plot_url }}" alt="Prediction Plot">
+            </div>
+            <div class="links">
+                <a href="{{ url_for('home') }}">Home</a>
+            </div>
+        </div>
+    </body>
+</html>
