@@ -69,7 +69,7 @@ services:
       - GF_SECURITY_ADMIN_USER=admin  # Default Grafana admin username
       - GF_SECURITY_ADMIN_PASSWORD=admin  # Default Grafana admin password
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning  # Mount provisioning directory
     networks:
       - monitoring
     depends_on:

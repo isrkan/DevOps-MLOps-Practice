@@ -1,0 +1,217 @@
+{
+  "id": null,
+  "title": "Spring Boot Application Metrics",
+  "description": "Dashboard to monitor key metrics from the Spring Boot application",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Application Ready Time",
+      "targets": [
+        {
+          "expr": "application_ready_time_seconds{main_application_class='com.example.expenses.ExpensesApplication'}",
+          "legendFormat": "Ready Time"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "s",
+          "label": "Seconds"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Application Started Time",
+      "targets": [
+        {
+          "expr": "application_started_time_seconds{main_application_class='com.example.expenses.ExpensesApplication'}",
+          "legendFormat": "Start Time"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "s",
+          "label": "Seconds"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Disk Free Space",
+      "targets": [
+        {
+          "expr": "disk_free_bytes{path='/expenses/.'}",
+          "legendFormat": "Free Space"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Bytes"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Disk Total Space",
+      "targets": [
+        {
+          "expr": "disk_total_bytes{path='/expenses/.'}",
+          "legendFormat": "Total Space"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Bytes"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Active Executor Threads",
+      "targets": [
+        {
+          "expr": "executor_active_threads{name='applicationTaskExecutor'}",
+          "legendFormat": "Active Threads"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "Threads"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Completed Executor Tasks",
+      "targets": [
+        {
+          "expr": "executor_completed_tasks_total{name='applicationTaskExecutor'}",
+          "legendFormat": "Completed Tasks"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "Tasks"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "JVM Memory Usage",
+      "targets": [
+        {
+          "expr": "jvm_memory_used_bytes{area='heap'}",
+          "legendFormat": "Heap Memory Used"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Bytes"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "JVM Memory Max",
+      "targets": [
+        {
+          "expr": "jvm_memory_max_bytes{area='heap'}",
+          "legendFormat": "Heap Memory Max"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Bytes"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "JVM Threads (Live)",
+      "targets": [
+        {
+          "expr": "jvm_threads_live_threads",
+          "legendFormat": "Live Threads"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "Threads"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "System CPU Usage",
+      "targets": [
+        {
+          "expr": "system_cpu_usage",
+          "legendFormat": "CPU Usage"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "CPU Usage"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "System Load Average (1m)",
+      "targets": [
+        {
+          "expr": "system_load_average_1m",
+          "legendFormat": "Load Average"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "Load"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Process CPU Usage",
+      "targets": [
+        {
+          "expr": "process_cpu_usage",
+          "legendFormat": "CPU Usage"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "CPU Usage"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "JVM GC Time",
+      "targets": [
+        {
+          "expr": "rate(jvm_gc_pause_seconds_sum[5m])",
+          "legendFormat": "GC Time"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "s",
+          "label": "Seconds"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 16,
+  "version": 1
+}
