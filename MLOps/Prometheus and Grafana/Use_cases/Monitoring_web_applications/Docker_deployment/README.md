@@ -134,9 +134,10 @@ docker ps
    - **`container_network_transmit_bytes_total`**: Network transmitted data per container.
 
 ## Step 5: Visualizing metrics in Grafana (Optional)
-For better visualization, we can connect Grafana to Prometheus and create dashboards. Here’s a brief setup guide:
+For better visualization, we can connect Grafana to Prometheus and create dashboards. Instead of manually configuring Grafana, we will use Provisioning to automate the setup of data sources and dashboards. This ensures that every time Grafana is deployed or restarted, it automatically loads the configurations we define. Here’s a brief setup guide:
 
 ### 1. Add Grafana to `docker-compose.yml`
+Add the following configuration to the `docker-compose.yml` file to start Grafana and enable automatic provisioning of data sources and dashboards:
 ```yaml
   grafana:
     image: grafana/grafana:latest
@@ -144,29 +145,102 @@ For better visualization, we can connect Grafana to Prometheus and create dashbo
     ports:
       - "3001:3000"
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning  # Mount provisioning directory
     depends_on:
       - prometheus
 ```
 
-### 2. Access Grafana
+This mounts the local `./grafana/provisioning` directory inside the Grafana container at `/etc/grafana/provisioning`, where Grafana expects the provisioning files.
+
+### 2. Create the provisioning directory structure
+In the root of our project (where `docker-compose.yml` is located), create the following directory structure:
+```
+grafana/
+└── provisioning/
+    ├── dashboards/
+    │   ├── dashboards.yaml  # File for loading dashboards
+    │   ├── my-dashboard.json  # JSON dashboard configuration
+    └── datasources/
+        └── datasources.yaml  # File for configuring data sources
+```
+
+#### 3. Configure the data source
+In `grafana/provisioning/datasources/datasources.yaml`, define the Prometheus data source:
+```yaml
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    url: http://prometheus:9090
+    access: proxy
+    isDefault: true
+```
+
+- **name**: The name of the data source (in this case, Prometheus).
+- **url**: The Prometheus service URL within the Docker network (`http://prometheus:9090`).
+- **isDefault**: Set to `true` so Prometheus is the default data source.
+
+#### 4. Configure dashboards
+In `grafana/provisioning/dashboards/dashboards.yaml`, define where Grafana will look for dashboard files:
+```yaml
+apiVersion: 1
+
+providers:
+  - name: "Dashboard Provider"
+    orgId: 1
+    type: file
+    options:
+      path: /etc/grafana/provisioning/dashboards
+```
+
+- **path**: Points to `/etc/grafana/provisioning/dashboards` where our JSON dashboard files are located.
+
+#### 5. Add a dashboard
+Create a JSON dashboard file (e.g., `grafana/provisioning/dashboards/my-dashboard.json`). We can create this manually or download a pre-built dashboard from the Grafana dashboard repository. Here is an example of a basic dashboard JSON:
+```json
+{
+  "dashboard": {
+    "id": null,
+    "title": "My Prometheus Dashboard",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "CPU Usage",
+        "targets": [
+          {
+            "expr": "rate(container_cpu_usage_seconds_total[5m])"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 16,
+    "version": 1
+  }
+}
+```
+
+This dashboard includes a single graph that monitors CPU usage for the Docker containers.
+
+#### 6. Start the Docker Compose stack
+After setting up provisioning, start our Docker Compose stack:
+```bash
+docker-compose up -d
+```
+
+This will bring up the Grafana container, and it will automatically load the data sources and dashboards we configured.
+
+### 7. Access Grafana
 - Open the browser and visit:
   ```
   http://localhost:3001
   ```
 
-  - Default login: **admin** / **admin**.
+- **Login**: Use the default credentials `admin` / `admin`, and change the password when prompted (or skip it).
+- Check the data sources at `http://localhost:3001/connections/datasources` to confirm Prometheus is pre-configured.
+- View the pre-loaded dashboards at `http://localhost:3001/dashboards`, including any dashboards we defined in JSON.
 
-### 3. Connect Grafana to Prometheus
-Once inside Grafana, follow these steps to connect Prometheus as a data source:
-1. Go to the left sidebar and click **Connections**.
-2. Search for **Prometheus**, and select it.
-3. Click on **Add new data Source** on the top right.
-4. In the **HTTP** section, set the following:
-   - **URL**: `http://prometheus:9090` (this is the internal Docker service name and port for Prometheus).
-5. Click **Save & Test** to verify the connection.
-
-### 4. Create Dashboards
+### 8. Create dashboards manually
 We can create dashboards to visualize container performance, using metrics like CPU, memory, and network traffic. Grafana also provides pre-built dashboards for Docker and cAdvisor metrics, which can be imported directly from the Grafana dashboard repository.
 
 ---
