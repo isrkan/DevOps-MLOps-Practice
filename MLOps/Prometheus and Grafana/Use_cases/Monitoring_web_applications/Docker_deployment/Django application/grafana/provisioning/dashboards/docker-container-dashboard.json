@@ -1,0 +1,111 @@
+{
+  "id": null,
+  "title": "Docker Container Metrics (via cAdvisor)",
+  "description": "Dashboard to monitor Docker container performance metrics",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "CPU Usage",
+      "targets": [
+        {
+          "expr": "rate(container_cpu_usage_seconds_total{image!=\"\"}[1m])",
+          "legendFormat": "{{ container_name }}",
+          "refId": "A"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "CPU Usage (%)"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Memory Usage",
+      "targets": [
+        {
+          "expr": "container_memory_usage_bytes{image!=\"\"}",
+          "legendFormat": "{{ container_name }}",
+          "refId": "A"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Memory Usage"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Network I/O (Received)",
+      "targets": [
+        {
+          "expr": "rate(container_network_receive_bytes_total{image!=\"\"}[1m])",
+          "legendFormat": "{{ container_name }}",
+          "refId": "A"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Bytes Received"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Network I/O (Transmitted)",
+      "targets": [
+        {
+          "expr": "rate(container_network_transmit_bytes_total{image!=\"\"}[1m])",
+          "legendFormat": "{{ container_name }}",
+          "refId": "A"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Bytes Transmitted"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Disk I/O (Read)",
+      "targets": [
+        {
+          "expr": "rate(container_fs_reads_bytes_total{image!=\"\"}[1m])",
+          "legendFormat": "{{ container_name }}",
+          "refId": "A"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Disk Read (Bytes)"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Disk I/O (Write)",
+      "targets": [
+        {
+          "expr": "rate(container_fs_writes_bytes_total{image!=\"\"}[1m])",
+          "legendFormat": "{{ container_name }}",
+          "refId": "A"
+        }
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "Disk Write (Bytes)"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 16,
+  "version": 1
+}

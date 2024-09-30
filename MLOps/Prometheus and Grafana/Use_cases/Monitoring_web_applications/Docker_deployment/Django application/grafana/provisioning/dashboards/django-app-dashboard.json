@@ -1,0 +1,197 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "description": "Django Application Monitoring Dashboard",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "gnetId": null,
+  "graphTooltip": 1,
+  "id": null,
+  "iteration": 1621248756357,
+  "links": [],
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Django Request Count",
+      "id": 1,
+      "targets": [
+        {
+          "target": "sum(rate(http_requests_total[1m]))",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "xaxis": {
+        "show": true,
+        "mode": "time"
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "Requests",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Django Response Latency",
+      "id": 2,
+      "targets": [
+        {
+          "target": "histogram_quantile(0.95, sum(rate(http_response_duration_seconds_bucket[5m])) by (le))",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "xaxis": {
+        "show": true,
+        "mode": "time"
+      },
+      "yaxes": [
+        {
+          "format": "s",
+          "label": "Latency (s)",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Django Error Rate",
+      "id": 3,
+      "targets": [
+        {
+          "target": "sum(rate(http_requests_total{status!=\"200\"}[1m])) / sum(rate(http_requests_total[1m]))",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "xaxis": {
+        "show": true,
+        "mode": "time"
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": "Error Rate",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Database Query Time",
+      "id": 4,
+      "targets": [
+        {
+          "target": "avg(db_query_duration_seconds)",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "xaxis": {
+        "show": true,
+        "mode": "time"
+      },
+      "yaxes": [
+        {
+          "format": "s",
+          "label": "Query Time (s)",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "type": "singlestat",
+      "title": "Active Users",
+      "id": 5,
+      "targets": [
+        {
+          "target": "count(active_users)",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "valueName": "current",
+      "format": "short"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 16,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "1d"
+    ],
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "1h"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Django Application Dashboard",
+  "version": 1
+}
