@@ -16,3 +16,26 @@ Linux-based operating systems are open-source, flexible, and customizable platfo
    The frequent updates and large community support ensure that Ubuntu is always up-to-date with the latest technologies.
 2. **Debian**: Debian is one of the oldest Linux distributions and serves as the foundation for many other distros, including Ubuntu. Debian is known for its stability and conservative approach to new software versions, making it ideal for systems that prioritize reliability.
 3. **CentOS/AlmaLinux**: CentOS (now succeeded by AlmaLinux) is a community-driven distribution based on Red Hat Enterprise Linux (RHEL). It is often used in enterprise settings for hosting and running web servers due to its stability and long-term support.
+
+---
+
+## Getting started with Ubuntu on WSL
+
+- **Launch Ubuntu:** After installation, open the **Ubuntu app** from the start menu.
+
+### Launching Xfce applications
+Xfce4 is a lightweight desktop environment for Linux and Unix-like operating systems. Xfce4 provides a graphical interface that allows users to interact with their computer using windows, icons, menus, and panels, making it easy to navigate files and applications. It is designed to be fast and use fewer system resources compared to other desktop environments like GNOME or KDE. Xfce4 is modular, meaning we can install only the components we need without requiring the entire desktop environment. Here are three essential Xfce applications we can launch:
+1. **Xfce4 Terminal:** A terminal emulator that provides a command-line interface within a GUI. It allows us to run shell commands and interact with the Linux system using a terminal.
+   ```bash
+   xfce4-terminal &
+   ```
+
+2. **Thunar:** A lightweight file manager for Xfce. Thunar allows us to browse and manage files and directories graphically, making it easier to work with your files in a GUI environment.
+   ```bash
+   thunar &
+   ```
+
+3. **Xfce4 AppFinder:** A graphical application launcher for Xfce. It helps us find and launch installed applications quickly, similar to the Windows Start menu.
+   ```bash
+   xfce4-appfinder &
+   ```
