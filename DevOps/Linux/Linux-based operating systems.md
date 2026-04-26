@@ -58,18 +58,78 @@ After entering our password, we will have remote access to that server.
 - **Launch Ubuntu:** After installation, open the **Ubuntu app** from the start menu.
 
 ### Launching Xfce applications
-Xfce4 is a lightweight desktop environment for Linux and Unix-like operating systems. Xfce4 provides a graphical interface that allows users to interact with their computer using windows, icons, menus, and panels, making it easy to navigate files and applications. It is designed to be fast and use fewer system resources compared to other desktop environments like GNOME or KDE. Xfce4 is modular, meaning we can install only the components we need without requiring the entire desktop environment. Here are three essential Xfce applications we can launch:
+Xfce4 is a lightweight desktop environment for Linux and Unix-like operating systems. Xfce4 provides a graphical interface that allows users to interact with their computer using windows, icons, menus, and panels, making it easy to navigate files and applications. Without a desktop environment, Linux shows only a plain text terminal with no visuals. Xfce4 is designed to be fast and use fewer system resources compared to other desktop environments like GNOME or KDE. Xfce4 is modular, meaning we can install only the components we need without requiring the entire desktop environment. 
+
+With Xfce installed, we can run individual Xfce GUI applications from the terminal. The `&` at the end of each command runs the application in the background, so the terminal remains free for other commands. Here are three essential Xfce applications:
 1. **Xfce4 Terminal:** A terminal emulator that provides a command-line interface within a GUI. It allows us to run shell commands and interact with the Linux system using a terminal.
    ```bash
    xfce4-terminal &
    ```
 
-2. **Thunar:** A lightweight file manager for Xfce. Thunar allows us to browse and manage files and directories graphically, making it easier to work with your files in a GUI environment.
+2. **Thunar:** A lightweight file manager for Xfce. A file manager is the graphical tool for browsing, copying, moving, and deleting files — similar to Windows Explorer. Instead of navigating folders with `cd` and `ls` commands in the terminal, Thunar lets us click through folders visually.
    ```bash
    thunar &
    ```
 
-3. **Xfce4 AppFinder:** A graphical application launcher for Xfce. It helps us find and launch installed applications quickly, similar to the Windows Start menu.
+3. **Xfce4 AppFinder:** A graphical application launcher for Xfce. It shows a searchable list of all installed applications and lets us launch them with a click - similar to the Windows Start menu search. It is useful when we want to open a program but do not remember its exact terminal command name.
    ```bash
    xfce4-appfinder &
    ```
+
+### Viewing the full Ubuntu desktop with XRDP
+By default, WSL gives us only a text terminal - there is no desktop background, no taskbar, no visual desktop. We can launch individual GUI apps (like Thunar or Xfce4 Terminal) as separate windows, but we do not get a full desktop experience. XRDP solves this. It is a tool that lets us connect to a full graphical Ubuntu desktop using the Remote Desktop Protocol (RDP) - the same protocol Windows uses for its built-in Remote Desktop feature. 
+
+With XRDP running, we open the standard Windows Remote Desktop Connection app (also called `mstsc`) and connect to our Ubuntu machine. Instead of a plain terminal, we get a complete desktop with:
+- A desktop background.
+- A taskbar / panel at the bottom or top.
+- A start menu and application icons.
+- Multiple open windows, all inside one Remote Desktop window.
+
+
+#### Setting up XRDP on Ubuntu (WSL)
+
+**Step 1 — Install Xfce desktop environment** (if not already done):
+```bash
+sudo apt update
+sudo apt install xfce4 xfce4-goodies -y
+```
+
+**Step 2 — Install XRDP:**
+```bash
+sudo apt install xrdp -y
+```
+
+**Step 3 — Tell XRDP to use the Xfce desktop:**
+```bash
+echo xfce4-session > ~/.xsession
+```
+This tells XRDP: "when a user connects, start an Xfce desktop session for them."
+
+**Step 4 — Start the XRDP service:**
+```bash
+sudo service xrdp start
+```
+
+We can verify it is running with:
+```bash
+sudo service xrdp status
+```
+
+**Step 5 — Connect from Windows using Remote Desktop:**
+1. Type `hostname -I`. (It will look like `172.xx.xx.xx`).
+2. Open Windows Remote Desktop Connection: Type the IP address into the "Computer" field and click Connect.
+4. A login screen will appear - Session: Leave it as `Xorg`. Enter the Ubuntu **username** and **password**.
+5. We will see the full Xfce desktop with a taskbar, desktop background, and application menus.
+
+#### Stopping XRDP
+When we are done, we can stop the service to free up resources:
+```bash
+sudo service xrdp stop
+```
+
+#### Auto-starting XRDP on WSL launch (optional)
+Each time WSL restarts, we need to start XRDP again manually. To avoid this, we can add the start command to our shell profile (e.g., `~/.bashrc`):
+```bash
+echo "sudo service xrdp start" >> ~/.bashrc
+```
+> **Note:** This will prompt for a password each time a new terminal opens unless we configure passwordless `sudo` for the xrdp service. For learning environments this is acceptable, but avoid it on shared or production systems.
