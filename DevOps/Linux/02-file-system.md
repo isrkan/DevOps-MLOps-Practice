@@ -180,7 +180,7 @@ ls /etc
 ls -l
 ```
 
-The `-l` flag shows a **long listing** with one item per line, including permissions, owner, size, and modification date. Example output:
+The `-l` flag shows a **long listing** with one item per line, including permissions, owner name, group name, size, modification date and file name. Example output:
 
 ```
 drwxr-xr-x 2 alice alice 4096 Apr  1 10:30 Documents
@@ -220,6 +220,19 @@ ls -lah
 ```
 
 This shows all files (including hidden), in long format, with human-readable sizes.
+
+```bash
+ls -F
+```
+
+The `-F` flag appends a **classifier symbol** to each entry, telling us at a glance what kind of file it is — without needing the full detail of `-l`. The symbols are:
+- `/` — a directory
+- `*` — an executable file (a program or script with execute permission)
+- `@` — a symbolic link (symlink)
+- `|` — a named pipe (FIFO)
+- `=` — a socket
+- `>` — a door (rare, mostly on Solaris)
+- *(no symbol)* — a regular file
 
 #### cd — Change directory
 `cd` moves us to a different directory:
@@ -589,6 +602,51 @@ Hidden files are typically configuration files for applications. Common ones in 
 - `.gitconfig` — Git configuration
 
 These aren't "hidden" for security — they're hidden to keep directory listings clean. Anyone with access to our home directory can see them with `ls -a`.
+
+---
+
+## Working with Spaces in Filenames
+In Linux, spaces in filenames cause a specific kind of trouble because the shell uses whitespace to separate arguments. When we type `cp my file.txt backup/`, the shell sees *three* arguments — `my`, `file.txt`, and `backup/` — not two. The result is a confusing error like `cp: cannot stat 'my': No such file or directory`.
+
+Linux conventions favor filenames without spaces (using `_` or `-` instead), but we'll still run into spaces constantly when working with files copied from Windows, downloaded from the web, or shared by non-technical users. Here are the ways to handle them.
+
+#### Quoting with double quotes
+Wrapping the path in `"..."` tells the shell to treat everything inside as a single argument:
+
+```bash
+cd "My Documents"
+cp "vacation photo.jpg" ~/Pictures/
+rm "old report (final).pdf"
+```
+
+#### Quoting with single quotes
+Single quotes work the same way for spaces, with one important difference: single quotes also disable variable expansion, so `$HOME` stays literal instead of being replaced with the home directory path.
+
+```bash
+cat 'meeting notes.txt'
+```
+
+For paths with plain spaces, either quote style works fine.
+
+#### Escaping with a backslash
+We can also "escape" each space by putting a `\` directly before it. The backslash tells the shell that the next character is literal, not a separator:
+
+```bash
+cd My\ Documents
+cp vacation\ photo.jpg ~/Pictures/
+```
+
+This style is shorter for one-off use but harder to read when there are multiple spaces. Quoting is usually clearer.
+
+#### Let tab completion do it for us
+Here's the easy way: **just use tab completion**. If we type `cd My` and press `Tab`, the shell automatically inserts the backslashes for us, producing `cd My\ Documents/`. We never have to think about quoting at all when we let `Tab` do the work — yet another reason to make tab completion a habit.
+
+#### Other tricky characters
+Spaces aren't the only characters the shell treats specially. Parentheses `( )`, ampersands `&`, dollar signs `$`, asterisks `*`, and quotes themselves can all cause similar issues. The same solutions apply — quote the whole path or escape the offending character with `\`. When in doubt, wrap the whole path in single quotes:
+
+```bash
+ls 'report (draft) & notes.txt'
+```
 
 ---
 

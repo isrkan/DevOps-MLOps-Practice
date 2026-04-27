@@ -131,9 +131,11 @@ Every Linux command follows a consistent structure. Understanding this structure
 command [options] [arguments]
 ```
 
-- **`command`** — The name of the program we want to run (e.g., `ls`, `cp`, `grep`)
-- **`[options]`** — Optional flags that modify the command's behavior. They start with a `-` (single dash for short options) or `--` (double dash for long options)
-- **`[arguments]`** — What the command acts on (e.g., a filename, a directory path)
+- **`command`** — The name of the program we want to run (e.g., `ls`, `cp`, `grep`). This is always the first word we type, and it tells the shell what we want to do.
+- **`[options]`** — Optional flags that modify the command's behavior. They start with a `-` (single dash for short options) or `--` (double dash for long options).
+- **`[arguments]`** — What the command acts on (e.g., a filename, a directory path). Some commands take no arguments, some take one, and others take many.
+
+The square brackets `[ ]` in the syntax line above are a convention used in documentation to mean "optional." So `command [options] [arguments]` means: the command itself is required, but options and arguments may or may not be present, depending on what we want to do.
 
 For example:
 ```bash
@@ -145,17 +147,38 @@ Here:
 - `-l` is an option (use long format — shows more details)
 - `/home` is the argument (list the contents of the `/home` directory)
 
-Multiple short options can often be combined. Instead of writing `-l -a`, we can write `-la`:
+#### Combining short options
+Multiple short options can often be combined into a single group. Instead of writing `-l -a`, we can write `-la`:
 
 ```bash
 ls -la /home
 ```
 
-Long options use a full word and are easier to read in scripts:
+**The order of options does not matter.** All four of the following commands are completely equivalent and produce exactly the same result:
+
+```bash
+ls -l -a /home
+ls -a -l /home
+ls -la /home
+ls -al /home
+```
+
+Whether we write the options separately or grouped, and whichever order we put them in, the shell treats them the same way. This flexibility is convenient — we don't need to memorize a specific order, just the letters of the options we want.
+
+#### Short vs. long options
+Long options use a full word and are easier to read, especially in scripts where clarity matters:
 
 ```bash
 ls --all --human-readable /home
 ```
+
+Short options (`-a`) are quicker to type at the terminal, while long options (`--all`) are clearer when reading or sharing code. Many options have both a short and a long form — for example, `-a` and `--all` do exactly the same thing. We can even mix and match the two styles in the same command:
+
+```bash
+ls -l --all /home
+```
+
+One important difference: **long options cannot be combined** the way short ones can. We must write `--all --human-readable` as two separate words, not as `--allhuman-readable`.
 
 ---
 
