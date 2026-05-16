@@ -95,4 +95,3 @@ Google Cloud organizes its transformation value around five pillars that reflect
 - [Why Cloud Technology Is Transforming Business](1.1_why_cloud_technology_is_transforming_business.md) — the drivers and challenges of digital transformation, deployment models, and Google Cloud's role
 - [Fundamental Cloud Concepts](1.2_fundamental_cloud_concepts.md) — scalability, elasticity, agility, CapEx vs OpEx, global infrastructure, and network fundamentals
 - [Cloud Computing Models and Shared Responsibility](1.3_cloud_computing_models_and_shared_responsibility.md) — IaaS, PaaS, and SaaS compared in depth, with the shared responsibility model
-- [Review Questions](review_questions.md)
