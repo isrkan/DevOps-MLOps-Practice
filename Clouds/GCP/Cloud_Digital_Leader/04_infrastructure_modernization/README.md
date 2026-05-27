@@ -81,9 +81,11 @@ Managing this complexity consistently — applying uniform security policies, ma
 
 ## Topics in This Section
 
-- [Cloud Modernization and Migration](4.1_cloud_modernization_and_migration.md) — migration strategies, the business case for modernization, and key terminology
-- [Computing in the Cloud](4.2_computing_in_the_cloud.md) — virtual machines, containers, Kubernetes, autoscaling, load balancing, and how to choose between compute options
-- [Serverless Computing](4.3_serverless_computing.md) — Cloud Run, App Engine, and Cloud Functions
-- [Containers in the Cloud](4.4_containers_in_the_cloud.md) — how containers differ from VMs, microservices architecture, and GKE
-- [The Value of APIs](4.5_the_value_of_apis.md) — APIs as business assets, the API economy, and Apigee
-- [Hybrid and Multi-Cloud](4.6_hybrid_and_multi_cloud.md) — reasons for hybrid and multi-cloud strategies, and GKE Enterprise
+- [Cloud Modernization and Migration](4.1_cloud_modernization_and_migration.md) — why modernization matters, the migration "R" strategies, and key terminology
+- [Virtual Machines and Compute Engine](4.2_virtual_machines_and_compute%20_engine.md) — core compute building blocks and running VMs on Google Compute Engine
+- [Containers, Microservices, and Kubernetes](4.3_containers_microservices_and_kubernetes.md) — cloud-native development principles, containers, microservices, and GKE
+- [Serverless Computing](4.4_serverless_computing.md) — what serverless really means, Cloud Run, App Engine, and Cloud Functions
+- [Choosing the Right Compute Option](4.5_choosing_the_right_compute_option.md) — comparing compute products and when to use each
+- [Application Modernization](4.6_application_modernization.md) — infrastructure vs. application modernization and modernizing the software layer
+- [The Value of APIs](4.7_the_value_of_apis.md) — what APIs are, APIs as business assets, the API economy, and Apigee
+- [Hybrid and Multi-Cloud](4.8_hybrid_and_multi_cloud.md) — why organizations choose hybrid and multi-cloud strategies, and GKE Enterprise
