@@ -120,7 +120,7 @@ Google offers a family of foundation models, each designed for different use cas
 | **Imagen** | Text-to-image generation | Marketing visuals, product imagery, creative content |
 | **Veo** | Text-to-video generation | Video content production, marketing, training materials |
 
-Each model exists at Layer 2 of the stack and is accessible through Vertex AI (Layer 3) or through purpose-built applications (Layer 5). The same Gemini model that powers a consumer chat assistant can be accessed directly via API for enterprise application development.
+Each model exists at Layer 2 of the stack and is accessible through Vertex AI (Layer 3) for general ML workflows, or through Agent Platform (Layer 3) for building agents and AI applications, or through purpose-built applications (Layer 5). The same Gemini model that powers a consumer chat assistant can be accessed directly via API for enterprise application development.
 
 ---
 
