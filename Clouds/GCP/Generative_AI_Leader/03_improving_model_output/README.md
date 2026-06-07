@@ -1,4 +1,4 @@
-# Module 3: Improving Generative AI Model Output
+# Improving Generative AI Model Output
 
 ## Why This Topic Matters for Business Leaders
 Deploying a foundation model out of the box is rarely enough. The same underlying model can deliver dramatically different results depending on how it is configured, what information it has access to, how it is instructed, and how its outputs are governed after deployment.
